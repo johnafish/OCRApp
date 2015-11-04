@@ -13,7 +13,8 @@ public class Graph extends JFrame {
     
     public BufferedImage image;
     public double[] roots;
-    public Equation e;  
+    public Equation e;
+    public String equation;
     
     /**
      * Constructor of Graph
@@ -21,6 +22,10 @@ public class Graph extends JFrame {
      */
     public Graph(Equation e) {
         this.e = e;
+    }
+    
+    public Graph(String equation) {
+        //this.equation = "3x^2";
     }
     
     /**
