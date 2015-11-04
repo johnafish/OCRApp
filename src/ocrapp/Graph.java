@@ -25,14 +25,19 @@ public class Graph extends JFrame {
     }
     
     public Graph(String equation) {
-        //this.equation = "3x^2";
+        this.equation = "3x^2";
     }
     
     /**
      * Constructs the BufferedImage using setRGB()
      */
     public void construct() {
-        
+        if (e.degree == 1) {
+            
+        }
+        if (e.degree == 2) {
+            
+        }
     }
     
     /**
@@ -40,7 +45,7 @@ public class Graph extends JFrame {
      * @param g 
      */
     public void display(Graphics g) {
-        
+        image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
     }
     
 }
