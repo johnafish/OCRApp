@@ -6,7 +6,9 @@ package ocrapp;
  */
 public class Equation {
     double a,b,c;
+    int degree;
     String equation;
+    
     public Equation(String e){
         this.equation = e;
     }
