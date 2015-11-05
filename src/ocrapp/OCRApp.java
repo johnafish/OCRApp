@@ -29,7 +29,7 @@ public class OCRApp extends JFrame {
     
     public static void main(String[] args) {
         new OCRApp().setVisible(true);
-        new Graph("mx+b").setVisible(true);
+        //new Graph("mx+b").setVisible(true);
     }
 
 }
