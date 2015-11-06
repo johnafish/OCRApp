@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.imageio.ImageIO;
 
@@ -12,18 +13,21 @@ import javax.imageio.ImageIO;
  *
  * @author John Fish <john@johnafish.ca>
  */
-public class Detector {
+
+public final class Detector {
     String content;
     BufferedImage image;
     List<BufferedImage> letterImages;
-    double[][][] minimizedLetters;
+    List<double[]> minimizedLetters;
+    public static int resolution = 5;
     
     public Detector(BufferedImage i){
         this.image = i;
-        this.letterImages = new ArrayList<BufferedImage>();
+        this.letterImages = new ArrayList<>();
+        this.minimizedLetters = new ArrayList<>();
         this.binarize();
         this.isolateLetters();
-        this.saveCharacters();
+        this.minimizeLetters();
     }
     
     public void isolateLetters(){
@@ -87,7 +91,10 @@ public class Detector {
     }
     
     public void minimizeLetters(){
-        //Convert isolated letter images into 2D arrays of 5x5 of binary values
+        for (int i = 0; i < letterImages.size(); i++) {
+            minimizedLetters.add(reduceImage(letterImages.get(i)));
+            System.out.println(Arrays.toString(minimizedLetters.get(i)));
+        }
     }
     
     public void guessLetters(){
@@ -113,6 +120,24 @@ public class Detector {
         saveImage(this.image, "test");
     }
     
+    public static double[] reduceImage(BufferedImage img){
+        double[] reduced = new double[resolution*resolution];
+        int reducedWidth = img.getWidth()/resolution;
+        int reducedHeight = img.getHeight()/resolution;
+        for (int i = 0; i < resolution*resolution; i++) {
+            int sum = 0;
+            int numPixels = 0;
+            for (int j = 0; j < reducedWidth; j++) {
+                for (int k = 0; k < reducedHeight; k++) {
+                    sum+=new Color(img.getRGB(reducedWidth*(i%resolution)+j, reducedHeight*(i/resolution)+k)).getRed();
+                    
+                }
+            }
+            reduced[i]=sum/(reducedWidth*reducedHeight);
+        }
+        return reduced;
+    }
+    
     public static void saveImage(BufferedImage img, String name){
         try {
             File outputFile = new File(name+".png");
@@ -123,7 +148,7 @@ public class Detector {
     }
     
     public  void saveCharacters(){
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < letterImages.size(); i++) {
             this.saveImage(this.letterImages.get(i), "img"+i);
         }
     }
