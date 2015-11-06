@@ -45,3 +45,6 @@ Temporary Items
 *.properties
 nbproject/private/private.properties
 /dist/
+*.properties
+nbproject/build-impl.xml
+build.xml
