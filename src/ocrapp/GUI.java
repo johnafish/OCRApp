@@ -28,54 +28,135 @@ public class GUI extends javax.swing.JFrame {
 
         tabbedPane = new javax.swing.JTabbedPane();
         mainTab = new javax.swing.JPanel();
+        inputtedImage = new javax.swing.JPanel();
+        equationTextField = new javax.swing.JTextField();
+        equationLabel = new javax.swing.JLabel();
         graphTab = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("OCR Application");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setEnabled(false);
 
+        inputtedImage.setBackground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout inputtedImageLayout = new javax.swing.GroupLayout(inputtedImage);
+        inputtedImage.setLayout(inputtedImageLayout);
+        inputtedImageLayout.setHorizontalGroup(
+            inputtedImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        inputtedImageLayout.setVerticalGroup(
+            inputtedImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 408, Short.MAX_VALUE)
+        );
+
+        equationTextField.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        equationTextField.setText("EQUATION HERE");
+        equationTextField.setToolTipText("");
+        equationTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                equationTextFieldActionPerformed(evt);
+            }
+        });
+
+        equationLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        equationLabel.setText("Equation:");
+
         javax.swing.GroupLayout mainTabLayout = new javax.swing.GroupLayout(mainTab);
         mainTab.setLayout(mainTabLayout);
         mainTabLayout.setHorizontalGroup(
             mainTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 795, Short.MAX_VALUE)
+            .addGroup(mainTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainTabLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(equationLabel)
+                        .addGap(4, 4, 4)
+                        .addComponent(equationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(381, Short.MAX_VALUE))
+                    .addGroup(mainTabLayout.createSequentialGroup()
+                        .addComponent(inputtedImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         mainTabLayout.setVerticalGroup(
             mainTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 476, Short.MAX_VALUE)
+            .addGroup(mainTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(inputtedImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mainTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(equationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(equationLabel))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab("Main", mainTab);
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 771, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 452, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout graphTabLayout = new javax.swing.GroupLayout(graphTab);
         graphTab.setLayout(graphTabLayout);
         graphTabLayout.setHorizontalGroup(
             graphTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 795, Short.MAX_VALUE)
+            .addGroup(graphTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         graphTabLayout.setVerticalGroup(
             graphTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 476, Short.MAX_VALUE)
+            .addGroup(graphTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabbedPane.addTab("Graph", graphTab);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setText("OCR Application");
+        jLabel1.setToolTipText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(tabbedPane)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(304, 304, 304))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 50, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void equationTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equationTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_equationTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -112,7 +193,12 @@ public class GUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel equationLabel;
+    private javax.swing.JTextField equationTextField;
     private javax.swing.JPanel graphTab;
+    private javax.swing.JPanel inputtedImage;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel mainTab;
     private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
