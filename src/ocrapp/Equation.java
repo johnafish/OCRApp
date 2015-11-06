@@ -48,17 +48,21 @@ public class Equation {
             roots = returnQuadraticFormula(this.a, this.b, this.c); // changing this later   
         }
     }
-    
+    //finds coefficients and sets a, b ,c values accordingly 
     void getCoefficients(){
-        //finds coefficients and sets a, b ,c values accordingly 
+        String newEquation = this.equation;
+        newEquation.substring(1); // cuts off 0=, y=, etc.
+        //newEquation.su
+        
     }
-    
+    //sets a degree of either 1 or 2
     void getDegrees(){
-//        int index = this.equation.indexOf("x");
-//        
-//        if( this.equation.indexOf( index + 1) == "2"){
-//            
-//        }
-        //returns a degree of either 1 or 2
+        int indexOfDegree = this.equation.indexOf("^") + 1;
+        Character deg = equation.charAt(indexOfDegree);
+  
+        if( deg.toString().equals("2"))
+            this.degree = 2;
+        else
+            this.degree = 1;
     }
 }
