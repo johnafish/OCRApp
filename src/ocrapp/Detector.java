@@ -1,5 +1,6 @@
 package ocrapp;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**
@@ -14,6 +15,7 @@ public class Detector {
     
     public Detector(BufferedImage i){
         this.image = i;
+        this.binarize();
     }
     
     public void isolateLetters(){
@@ -30,5 +32,19 @@ public class Detector {
     
     public void populateDB(String correct){
         //Populate the database with the letters and their minimized information
+    }
+    
+    public void binarize(){
+        for (int i = 0; i < this.image.getWidth(); i++) {
+            for (int j = 0; j < this.image.getHeight(); j++) {
+                Color pixelValue = new Color(this.image.getRGB(i, j));
+                int sum = pixelValue.getRed()+pixelValue.getBlue()+pixelValue.getGreen();
+                if (sum<200){
+                    this.image.setRGB(i, j, Color.white.getRGB());
+                } else {
+                    this.image.setRGB(i, j, Color.black.getRGB());
+                }
+            }
+        }
     }
 }
