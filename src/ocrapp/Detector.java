@@ -2,8 +2,11 @@ package ocrapp;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +33,7 @@ public final class Detector {
         this.isolateLetters();
         this.minimizeLetters();
         this.guessLetters();
+        this.populateDB("y=4x+3");
     }
     
     public void isolateLetters(){
@@ -132,7 +136,18 @@ public final class Detector {
     }
     
     public void populateDB(String correct){
-        //Populate the database with the letters and their minimized information
+        for (int i = 0; i < correct.length(); i++) {
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("database.txt", true)))) {
+                out.print(correct.charAt(i)+" ");
+                double[] reduced = minimizedLetters.get(i);
+                for (int j = 0; j < reduced.length; j++) {
+                    out.print(reduced[j]+" ");
+                }
+                out.println();
+            }catch (IOException e) {
+                System.out.println("Error populating DB.");
+            }
+        }
     }
     
     public void binarize(){
