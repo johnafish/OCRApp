@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 /**
@@ -15,7 +16,7 @@ import javax.imageio.ImageIO;
  */
 
 public final class Detector {
-    String content;
+    String content = "";
     BufferedImage image;
     List<BufferedImage> letterImages;
     List<double[]> minimizedLetters;
@@ -28,6 +29,7 @@ public final class Detector {
         this.binarize();
         this.isolateLetters();
         this.minimizeLetters();
+        this.guessLetters();
     }
     
     public void isolateLetters(){
@@ -93,12 +95,40 @@ public final class Detector {
     public void minimizeLetters(){
         for (int i = 0; i < letterImages.size(); i++) {
             minimizedLetters.add(reduceImage(letterImages.get(i)));
-            System.out.println(Arrays.toString(minimizedLetters.get(i)));
+            for (int j = 0; j < minimizedLetters.get(i).length; j++) {
+            }
+        }
+    }
+    
+    public String guessLetter(double[] reduced) {
+        try {
+            File database = new File("database.txt");
+            Scanner s = new Scanner(database);
+            String guess = "";
+            double close = Double.POSITIVE_INFINITY;
+            while(s.hasNext()){
+                String letter = s.next();
+                double diff = 0;
+                for (int i = 0; i < resolution*resolution; i++) {
+                    diff += Math.abs(s.nextDouble()-reduced[i]);
+                }
+                if(diff<close){
+                    guess = letter;
+                    close = diff;
+                }
+            }
+            return guess;
+        } catch (IOException e){
+            System.out.println("Error opening database.");
+            return "-1";
         }
     }
     
     public void guessLetters(){
-        //Populate content string with guesses from database
+        for (int i = 0; i < minimizedLetters.size(); i++) {
+            this.content+=guessLetter(minimizedLetters.get(i));
+        }
+        System.out.println(this.content);
     }
     
     public void populateDB(String correct){
