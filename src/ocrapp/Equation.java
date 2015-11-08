@@ -53,24 +53,25 @@ public class Equation {
         String newEquation = this.equation;
         //doing this all assuming the string taken has no spaces and 0=,y= are on the left
         if( newEquation.substring(0, 1).equals("y") ){ //for the form y=mx+b
-            this.a = Double.NaN;
-            this.b = Double.parseDouble( this.equation.substring(2, 3));
+            this.a = Double.parseDouble( this.equation.substring(2, 3));
+            this.b = Double.NaN;
             this.c = Double.parseDouble( this.equation.substring(5));
             
         }
         else{
             newEquation = newEquation.substring(2); // cuts off 0=, y=, etc.
-            System.out.println(newEquation);
+            int indexOfX = newEquation.indexOf("x");
+
             if( newEquation.substring(0, 1).equals("x") )
                 this.a = 1;
             else
-                this.a = Double.parseDouble( newEquation.substring(0, 1) ); //for regular form
+                this.a = Double.parseDouble( newEquation.substring(indexOfX - 1, indexOfX) ); //for regular form
             if( newEquation.substring(3, 4).equals("x") )
                 this.b = 1;
             else
-                this.b = Double.parseDouble( newEquation.substring(3, 4) );
-            
-            this.c = Double.parseDouble( newEquation.substring(6, 7) );
+                this.b = Double.parseDouble( newEquation.substring(indexOfX + 3, indexOfX + 4) );
+         
+            this.c = Double.parseDouble( newEquation.substring(newEquation.length() - 1) );
         }
     }
     //sets a degree of either 1 or 2
