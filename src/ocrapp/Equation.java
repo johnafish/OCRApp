@@ -59,9 +59,17 @@ public class Equation {
             
         }
         else{
-            newEquation = newEquation.substring(1); // cuts off 0=, y=, etc.
-            this.a = Double.parseDouble( newEquation.substring(0, 1) ); //for regular form
-            this.b = Double.parseDouble( newEquation.substring(3, 4) );
+            newEquation = newEquation.substring(2); // cuts off 0=, y=, etc.
+            System.out.println(newEquation);
+            if( newEquation.substring(0, 1).equals("x") )
+                this.a = 1;
+            else
+                this.a = Double.parseDouble( newEquation.substring(0, 1) ); //for regular form
+            if( newEquation.substring(3, 4).equals("x") )
+                this.b = 1;
+            else
+                this.b = Double.parseDouble( newEquation.substring(3, 4) );
+            
             this.c = Double.parseDouble( newEquation.substring(6, 7) );
         }
     }
