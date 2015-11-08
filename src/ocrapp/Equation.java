@@ -10,7 +10,7 @@ public class Equation {
     public double[]roots = new double[2]; 
     public String equation;
     public double discriminant = (this.b * this.b) - 4*this.a*this.c; // keep this?
-    
+    //Constructer
     public Equation(String e){
         this.equation = e;
         getDegrees();
@@ -45,22 +45,31 @@ public class Equation {
         }
         //fills roots array with returnQF call
         else{
-            roots = returnQuadraticFormula(this.a, this.b, this.c); // changing this later   
+            roots = returnQuadraticFormula(this.a, this.b, this.c); // uh you can fix this if you want   
         }
     }
     //finds coefficients and sets a, b ,c values accordingly 
     void getCoefficients(){
         String newEquation = this.equation;
-        newEquation.substring(1); // cuts off 0=, y=, etc.
-        //newEquation.su
-        
+        //doing this all assuming the string taken has no spaces and 0=,y= are on the left
+        if( newEquation.substring(0, 1).equals("y") ){ //for the form y=mx+b
+            this.a = Double.NaN;
+            this.b = Double.parseDouble( this.equation.substring(2, 3));
+            this.c = Double.parseDouble( this.equation.substring(5));
+            
+        }
+        else{
+            newEquation = newEquation.substring(1); // cuts off 0=, y=, etc.
+            this.a = Double.parseDouble( newEquation.substring(0, 1) ); //for regular form
+            this.b = Double.parseDouble( newEquation.substring(3, 4) );
+            this.c = Double.parseDouble( newEquation.substring(6, 7) );
+        }
     }
     //sets a degree of either 1 or 2
     void getDegrees(){
-        int indexOfDegree = this.equation.indexOf("^") + 1;
-        Character deg = equation.charAt(indexOfDegree);
-  
-        if( deg.toString().equals("2"))
+        int indexOfDegree = this.equation.indexOf("x") + 1;
+        
+        if( this.equation.substring(indexOfDegree, indexOfDegree + 1).equals("2") )
             this.degree = 2;
         else
             this.degree = 1;
