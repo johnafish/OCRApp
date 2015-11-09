@@ -33,7 +33,7 @@ public final class Detector {
         this.isolateLetters();
         this.minimizeLetters();
         this.guessLetters();
-        this.populateDB("y=4x+3");
+//        this.populateDB("y=");
     }
     
     public void isolateLetters(){
@@ -92,7 +92,11 @@ public final class Detector {
         }
         
         for (int i = 0; i < leftX.size(); i++) {
-            letterImages.add(this.image.getSubimage(leftX.get(i), topY.get(i), rightX.get(i)-leftX.get(i), bottomY.get(i)-topY.get(i)));
+            int width = rightX.get(i)-leftX.get(i);
+            int height = bottomY.get(i)-topY.get(i);
+            if(width>10 && height>10){
+                letterImages.add(this.image.getSubimage(leftX.get(i), topY.get(i), width, height));
+            }
         }
     }
     
@@ -154,7 +158,7 @@ public final class Detector {
             for (int j = 0; j < this.image.getHeight(); j++) {
                 Color pixelValue = new Color(this.image.getRGB(i, j));
                 int sum = pixelValue.getRed()+pixelValue.getBlue()+pixelValue.getGreen();
-                if (sum>330){
+                if (sum>320){
                     this.image.setRGB(i, j, Color.black.getRGB());
                 } else {
                     this.image.setRGB(i, j, Color.white.getRGB());
