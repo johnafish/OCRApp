@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -27,6 +29,19 @@ public class GUI extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setEnabled(true);
+        
+        tabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                //System.out.println(tabbedPane.getSelectedIndex());
+                if (tabbedPane.getSelectedIndex() == 0) {
+                    System.out.println("Main Tab");
+                }
+                if (tabbedPane.getSelectedIndex() == 1) {
+                    System.out.println("Graph Tab");
+                }
+            }
+        });
     }
 
     /**
@@ -186,8 +201,8 @@ public class GUI extends javax.swing.JFrame {
         g2d.drawImage(tmp, 0, 0, null);
         g2d.dispose();
         return dimg;
-    }
-    
+    }   
+   
     private void equationTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equationTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_equationTextFieldActionPerformed
@@ -195,30 +210,15 @@ public class GUI extends javax.swing.JFrame {
     private void browseButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browseButtonMouseClicked
         int returnVal = imageBrowser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = imageBrowser.getSelectedFile();
-            /*
             try {
-                // What to do with the file, e.g. display it in a TextArea
-                equationTextField.read( new FileReader( file.getAbsolutePath() ), null );
-                System.out.println("test");
-                
-            } catch (IOException ex) {
-                System.out.println("problem accessing file "+file.getAbsolutePath());
-            }
-            */
-            try {
-                BufferedImage img = ImageIO.read(file);
+                BufferedImage img = ImageIO.read(imageBrowser.getSelectedFile());
                 Detector d = new Detector(img);
-                System.out.println(d.content);
                 equationTextField.setText(d.content);
                 Graphics g = inputtedImage.getGraphics();
                 BufferedImage i = resize(d.image, inputtedImage.getWidth(), inputtedImage.getHeight());
                 g.drawImage(i, 0, 0, this);
             } catch (IOException e){
-                System.out.println("error");
             }
-        } else {
-            System.out.println("File access cancelled by user.");
         }
     }//GEN-LAST:event_browseButtonMouseClicked
     
@@ -248,7 +248,7 @@ public class GUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

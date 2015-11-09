@@ -132,7 +132,6 @@ public final class Detector {
         for (int i = 0; i < minimizedLetters.size(); i++) {
             this.content+=guessLetter(minimizedLetters.get(i));
         }
-        System.out.println(this.content);
     }
     
     public void populateDB(String correct){
