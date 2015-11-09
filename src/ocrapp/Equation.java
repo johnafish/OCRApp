@@ -56,17 +56,7 @@ public class Equation {
                 sign = newEquation[i];
             
             if( newEquation[i] == 'x' ){
-                if( this.a > 0){ //for quadratic w two x's
-                    try{
-                        this.b = Double.parseDouble( sign + String.valueOf(newEquation[i - 1]) );
-                    }
-                    catch( Exception e ){
-                        this.b = 1;
-                        if ( sign == '-')
-                            this.b *= -1;
-                    }
-                }
-                else{
+                if ( newEquation[i + 1] == '2') {
                     try{
                         this.a = Double.parseDouble( sign + String.valueOf(newEquation[i - 1]) );
                     }
@@ -74,6 +64,16 @@ public class Equation {
                         this.a = 1;
                         if ( sign == '-')
                             this.a *= -1;
+                    }
+                }
+                else{ //for quadratic w two x's
+                    try{
+                        this.b = Double.parseDouble( sign + String.valueOf(newEquation[i - 1]) );
+                    }
+                    catch( Exception e ){
+                        this.b = 1;
+                        if ( sign == '-')
+                            this.b *= -1;
                     }
                 }
             }
