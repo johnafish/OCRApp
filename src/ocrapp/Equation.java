@@ -46,9 +46,17 @@ public class Equation {
             roots = returnQuadraticFormula(this.a, this.b, this.c); // uh you can fix this if you want   
         }
     }
+    private char[] clean(String e){
+        String[] t = e.split(" ");
+        String full = "";
+        for (String s:t) { full += s; }
+        char[] newEquation = full.toCharArray();
+        return newEquation;
+    }
+    
     //finds coefficients and sets a, b ,c values accordingly 
     void getCoefficients(){
-        char[] newEquation = this.equation.toCharArray();
+        char[] newEquation = clean(this.equation);
         char sign = '+';
         for (int i = 0; i < newEquation.length; i++) {
            
@@ -56,9 +64,16 @@ public class Equation {
                 sign = newEquation[i];
             
             if( newEquation[i] == 'x' ){
+                int j = i;
+                String n = "";
+                while( Character.isDigit( newEquation[j - 1] ) ){
+                            j--;
+                            n += String.valueOf( newEquation[j] );                     
+                        }
+                StringBuffer number = new StringBuffer(n).reverse();
                 if ( newEquation[i + 1] == '2') {
                     try{
-                        this.a = Double.parseDouble( sign + String.valueOf(newEquation[i - 1]) );
+                        this.a = Double.parseDouble( sign + String.valueOf( number ) );
                     }
                     catch( Exception e){
                         this.a = 1;
@@ -68,7 +83,7 @@ public class Equation {
                 }
                 else{ //for quadratic w two x's
                     try{
-                        this.b = Double.parseDouble( sign + String.valueOf(newEquation[i - 1]) );
+                        this.b = Double.parseDouble( sign + String.valueOf( number ) );
                     }
                     catch( Exception e ){
                         this.b = 1;
@@ -77,14 +92,29 @@ public class Equation {
                     }
                 }
             }
-            else if( Character.isDigit( newEquation[i] ) &&  newEquation[i] != '0' ){
-                if( newEquation[i + 1] == 'x'){}
-                else if( newEquation[i - 1] == 'x'){}
+            else if( Character.isDigit( newEquation[i] ) &&  newEquation[i] != '0' && this.c == 0){
+                boolean xThere = true;
+                int u;
+                String num ="";
+                try{ 
+                    if( newEquation[i + 1] == 'x'){} 
+                    else if( newEquation[i - 1] == 'x'){}
+                    }
+                catch( Exception e) { xThere = false; }
                 
-                else
-                    this.c = Double.parseDouble( sign + String.valueOf(newEquation[i]) );
+                if( !xThere ){
+                  u = i;
+                  while( Character.isDigit( newEquation[u] )){
+                      num += String.valueOf( newEquation[u] );
+                      if( u + 1 > ( newEquation.length - 1 ) )
+                          break;
+                      else
+                        u++;
+                  }
+                  this.c = Double.parseDouble( sign + String.valueOf( num ) );
+                }
             }
-        }   
+        } 
     }
     //sets a degree of either 1 or 2
     void getDegrees(){
@@ -96,3 +126,4 @@ public class Equation {
             this.degree = 1;
     }
 }
+
