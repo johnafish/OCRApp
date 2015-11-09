@@ -4,17 +4,29 @@
  */
 package ocrapp;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author chend7019
  */
 public class GUI extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setEnabled(true);
     }
 
     /**
@@ -26,19 +38,22 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        imageBrowser = new javax.swing.JFileChooser();
         tabbedPane = new javax.swing.JTabbedPane();
         mainTab = new javax.swing.JPanel();
         inputtedImage = new javax.swing.JPanel();
         equationTextField = new javax.swing.JTextField();
         equationLabel = new javax.swing.JLabel();
         graphTab = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        bufferedGraph = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        browseButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OCR Application");
-        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setEnabled(false);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        setName("OCRApp"); // NOI18N
+        setResizable(false);
 
         inputtedImage.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -54,7 +69,6 @@ public class GUI extends javax.swing.JFrame {
         );
 
         equationTextField.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        equationTextField.setText("EQUATION HERE");
         equationTextField.setToolTipText("");
         equationTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,17 +110,17 @@ public class GUI extends javax.swing.JFrame {
 
         tabbedPane.addTab("Main", mainTab);
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        bufferedGraph.setBackground(new java.awt.Color(204, 204, 204));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 771, Short.MAX_VALUE)
+        javax.swing.GroupLayout bufferedGraphLayout = new javax.swing.GroupLayout(bufferedGraph);
+        bufferedGraph.setLayout(bufferedGraphLayout);
+        bufferedGraphLayout.setHorizontalGroup(
+            bufferedGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 773, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+        bufferedGraphLayout.setVerticalGroup(
+            bufferedGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 454, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout graphTabLayout = new javax.swing.GroupLayout(graphTab);
@@ -115,22 +129,29 @@ public class GUI extends javax.swing.JFrame {
             graphTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(graphTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bufferedGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         graphTabLayout.setVerticalGroup(
             graphTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(graphTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bufferedGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         tabbedPane.addTab("Graph", graphTab);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("OCR Application");
-        jLabel1.setToolTipText("");
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titleLabel.setText("OCR Application");
+        titleLabel.setToolTipText("");
+
+        browseButton.setText("Browse");
+        browseButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                browseButtonMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,25 +160,68 @@ public class GUI extends javax.swing.JFrame {
             .addComponent(tabbedPane)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(304, 304, 304))
+                .addComponent(titleLabel)
+                .addGap(208, 208, 208)
+                .addComponent(browseButton)
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(browseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    public static BufferedImage resize(BufferedImage img, int newW, int newH) { 
+        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = dimg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return dimg;
+    }
+    
     private void equationTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equationTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_equationTextFieldActionPerformed
 
+    private void browseButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browseButtonMouseClicked
+        int returnVal = imageBrowser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = imageBrowser.getSelectedFile();
+            /*
+            try {
+                // What to do with the file, e.g. display it in a TextArea
+                equationTextField.read( new FileReader( file.getAbsolutePath() ), null );
+                System.out.println("test");
+                
+            } catch (IOException ex) {
+                System.out.println("problem accessing file "+file.getAbsolutePath());
+            }
+            */
+            try {
+                BufferedImage img = ImageIO.read(file);
+                Detector d = new Detector(img);
+                System.out.println(d.content);
+                equationTextField.setText(d.content);
+                Graphics g = inputtedImage.getGraphics();
+                BufferedImage i = resize(d.image, inputtedImage.getWidth(), inputtedImage.getHeight());
+                g.drawImage(i, 0, 0, this);
+            } catch (IOException e){
+                System.out.println("error");
+            }
+        } else {
+            System.out.println("File access cancelled by user.");
+        }
+    }//GEN-LAST:event_browseButtonMouseClicked
+    
     /**
      * @param args the command line arguments
      */
@@ -193,13 +257,15 @@ public class GUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton browseButton;
+    private javax.swing.JPanel bufferedGraph;
     private javax.swing.JLabel equationLabel;
     private javax.swing.JTextField equationTextField;
     private javax.swing.JPanel graphTab;
+    private javax.swing.JFileChooser imageBrowser;
     private javax.swing.JPanel inputtedImage;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel mainTab;
     private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }
