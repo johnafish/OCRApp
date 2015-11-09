@@ -60,7 +60,7 @@ public class Graph extends JFrame {
     /**
      * Constructs the BufferedImage using setRGB().
      */
-    private void construct() {        
+    public void construct() {        
         image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         
         for (int y = 0; y < getHeight(); y++) {

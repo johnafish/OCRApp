@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -30,18 +29,27 @@ public class GUI extends javax.swing.JFrame {
         this.setResizable(false);
         this.setEnabled(true);
         
-        tabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                //System.out.println(tabbedPane.getSelectedIndex());
-                if (tabbedPane.getSelectedIndex() == 0) {
-                    System.out.println("Main Tab");
+        boolean enableChangeListener = true; // Set to false for prototype demo
+        if (enableChangeListener) {
+            tabbedPane.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    //System.out.println(tabbedPane.getSelectedIndex());
+                    if (tabbedPane.getSelectedIndex() == 0) {
+                        System.out.println("Main Tab");
+                    }
+                    if (tabbedPane.getSelectedIndex() == 1) {
+                        System.out.println("Graph Tab");
+                        Graphics g = bufferedGraph.getGraphics();
+                        Graph graph = new Graph("mx+b");
+                        graph.construct();
+                        BufferedImage i = resize(graph.image, bufferedGraph.getWidth(), bufferedGraph.getHeight());
+                        //graph.paint(g);
+                        g.drawImage(i, 0, 0, bufferedGraph);
+                    }
                 }
-                if (tabbedPane.getSelectedIndex() == 1) {
-                    System.out.println("Graph Tab");
-                }
-            }
-        });
+            });        
+        }
     }
 
     /**
@@ -66,11 +74,18 @@ public class GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OCR Application");
+        setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
         setName("OCRApp"); // NOI18N
         setResizable(false);
 
-        inputtedImage.setBackground(new java.awt.Color(204, 204, 204));
+        tabbedPane.setBackground(new java.awt.Color(255, 255, 255));
+        tabbedPane.setForeground(new java.awt.Color(3, 155, 229));
+
+        mainTab.setBackground(new java.awt.Color(255, 255, 255));
+
+        inputtedImage.setBackground(new java.awt.Color(225, 245, 254));
+        inputtedImage.setForeground(new java.awt.Color(225, 245, 254));
 
         javax.swing.GroupLayout inputtedImageLayout = new javax.swing.GroupLayout(inputtedImage);
         inputtedImage.setLayout(inputtedImageLayout);
@@ -84,6 +99,7 @@ public class GUI extends javax.swing.JFrame {
         );
 
         equationTextField.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        equationTextField.setForeground(new java.awt.Color(3, 155, 229));
         equationTextField.setToolTipText("");
         equationTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +108,7 @@ public class GUI extends javax.swing.JFrame {
         });
 
         equationLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        equationLabel.setForeground(new java.awt.Color(3, 155, 229));
         equationLabel.setText("Equation:");
 
         javax.swing.GroupLayout mainTabLayout = new javax.swing.GroupLayout(mainTab);
@@ -125,7 +142,11 @@ public class GUI extends javax.swing.JFrame {
 
         tabbedPane.addTab("Main", mainTab);
 
-        bufferedGraph.setBackground(new java.awt.Color(204, 204, 204));
+        graphTab.setBackground(new java.awt.Color(255, 255, 255));
+        graphTab.setForeground(new java.awt.Color(1, 87, 155));
+
+        bufferedGraph.setBackground(new java.awt.Color(225, 245, 254));
+        bufferedGraph.setForeground(new java.awt.Color(225, 245, 254));
 
         javax.swing.GroupLayout bufferedGraphLayout = new javax.swing.GroupLayout(bufferedGraph);
         bufferedGraph.setLayout(bufferedGraphLayout);
@@ -157,11 +178,16 @@ public class GUI extends javax.swing.JFrame {
 
         tabbedPane.addTab("Graph", graphTab);
 
+        titleLabel.setBackground(new java.awt.Color(255, 255, 255));
         titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(3, 155, 229));
         titleLabel.setText("OCR Application");
         titleLabel.setToolTipText("");
 
+        browseButton.setBackground(new java.awt.Color(41, 182, 246));
+        browseButton.setForeground(new java.awt.Color(1, 87, 155));
         browseButton.setText("Browse");
+        browseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         browseButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 browseButtonMouseClicked(evt);
@@ -204,7 +230,8 @@ public class GUI extends javax.swing.JFrame {
     }   
    
     private void equationTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equationTextFieldActionPerformed
-        // TODO add your handling code here:
+        System.out.println("Equation changed to: " + evt.getActionCommand());
+        // Enter database modifying code here
     }//GEN-LAST:event_equationTextFieldActionPerformed
 
     private void browseButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browseButtonMouseClicked
