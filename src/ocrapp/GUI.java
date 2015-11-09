@@ -19,8 +19,6 @@ import javax.swing.JFileChooser;
  */
 public class GUI extends javax.swing.JFrame {
     
-    BufferedImage i;
-
     /**
      * Creates new form GUI
      */
@@ -214,7 +212,7 @@ public class GUI extends javax.swing.JFrame {
                 System.out.println(d.content);
                 equationTextField.setText(d.content);
                 Graphics g = inputtedImage.getGraphics();
-                i = resize(d.image, inputtedImage.getWidth(), inputtedImage.getHeight());
+                BufferedImage i = resize(d.image, inputtedImage.getWidth(), inputtedImage.getHeight());
                 g.drawImage(i, 0, 0, this);
             } catch (IOException e){
                 System.out.println("error");
