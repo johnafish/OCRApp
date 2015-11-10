@@ -1,5 +1,6 @@
 package ocrapp;
 
+// Imports
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -63,6 +64,7 @@ public class Graph extends JFrame {
     public void construct() {        
         image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         
+        // Draws the x-axis and y-axis, and sets the rest of the image to white
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {
                 if (x == xShift/zoom || y == yShift/zoom) {
@@ -72,14 +74,6 @@ public class Graph extends JFrame {
                 }
             }
         }
-        /*
-        if (e.degree == 1) {
-            
-        }
-        if (e.degree == 2) {
-            
-        }
-        */
     }
     
     /**
@@ -88,9 +82,11 @@ public class Graph extends JFrame {
      */
     @Override
     public void paint(Graphics g) {
+        // Generates the BufferedImage and draws it
         this.construct();
         g.drawImage(image, 0, 0, this);
         
+        // Draws the labels for the x-axis and y-axis
         g.setColor(Color.RED);
         g.setFont(new Font("Helvetica", Font.PLAIN, 10));
         for (int x = 0; x < getWidth(); x++) {
@@ -107,19 +103,15 @@ public class Graph extends JFrame {
                 System.out.println(yLabel);
             }
         }
-        
-        /*
-        if (e.degree == 1) {
-            
-        }
-        if (e.degree == 2) {
-            
-        }
-        */
     }
     
+    /**
+     * This main method does not depend on any other classes
+     * @param args the command line arguments
+     * @deprecated
+     */
+    @Deprecated
     public static void main(String[] args) {
-        new Graph("mx+b").setVisible(true);
+        new Graph("mx+b").setVisible(true); 
     }
-    
 }

@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ocrapp;
 
+// Imports
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -15,13 +12,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- *
- * @author chend7019
+ * @author David Chen <Darksteal132@gmail.com>
  */
 public class GUI extends javax.swing.JFrame {
     
     /**
-     * Creates new form GUI
+     * GUI Constructor.
      */
     public GUI() {
         initComponents();
@@ -29,6 +25,7 @@ public class GUI extends javax.swing.JFrame {
         this.setResizable(false);
         this.setEnabled(true);
         
+        // ChangeListener that detects tab changes
         boolean enableChangeListener = true; // Set to false for prototype demo
         if (enableChangeListener) {
             tabbedPane.addChangeListener(new ChangeListener() {
@@ -220,6 +217,13 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    /**
+     * Resizes a BufferedImage to a new specified width and height.
+     * @param img Original BufferedImage
+     * @param newW New width
+     * @param newH New height
+     * @return Resized BufferedImage
+     */
     public static BufferedImage resize(BufferedImage img, int newW, int newH) { 
         Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
         BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
@@ -228,12 +232,23 @@ public class GUI extends javax.swing.JFrame {
         g2d.dispose();
         return dimg;
     }   
-   
+    
+    /**
+     * Detects if text in equationTextField is modified.
+     * Adds the changes to the detector database.
+     * @param evt ActionEvent
+     */
     private void equationTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equationTextFieldActionPerformed
         System.out.println("Equation changed to: " + evt.getActionCommand());
         // Enter database modifying code here
     }//GEN-LAST:event_equationTextFieldActionPerformed
-
+    
+    /**
+     * Detects if browseButton is clicked.
+     * Attempts to open a JFileChooser, then takes the chosen image,
+     * resizes it, and then displays it on the JPanel inputtedImage.
+     * @param evt MouseEvent
+     */
     private void browseButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browseButtonMouseClicked
         int returnVal = imageBrowser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -248,21 +263,16 @@ public class GUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_browseButtonMouseClicked
-    public void createImage(){
-        System.out.println("test");
-    }
+
     /**
+     * Main method.
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
         try {
             javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e){
-            System.out.println("yo");
-        }
-        
-       
+        }     
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -271,6 +281,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
     private javax.swing.JPanel bufferedGraph;
