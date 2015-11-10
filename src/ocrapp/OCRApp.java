@@ -32,14 +32,16 @@ public class OCRApp extends JFrame {
     }
     
     public static void main(String[] args) {
-        new OCRApp().setVisible(true);
-        try {
-            BufferedImage img = ImageIO.read(new File("equation.jpg"));
-            Detector d = new Detector(img);
-        } catch (IOException e){
-            System.out.println("yo");
-        }
-    }
+        Equation e = new Equation("x2 = 0");
+        System.out.println(e.c);
+//        new OCRApp().setVisible(true);
+//        try {
+//            BufferedImage img = ImageIO.read(new File("equation.jpg"));
+//            Detector d = new Detector(img);
+//        } catch (IOException e){
+//            System.out.println("yo");
+//        }
+//    }
         
         //new Graph("mx+b").setVisible(true);
 }
