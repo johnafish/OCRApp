@@ -16,15 +16,20 @@ import javax.imageio.ImageIO;
 /**
  *
  * @author John Fish <john@johnafish.ca>
+ * 
+ * TODO: Convert to Javadoc commenting vs sketchy python
  */
 
 public final class Detector {
-    String content = "";
-    BufferedImage image;
-    List<BufferedImage> letterImages;
-    List<double[]> minimizedLetters;
-    public static int resolution = 5;
+    //Field initialization
+    String content = ""; //The eventual machine-readable content of the image
+    BufferedImage image; //The total image used, usually with a filter applied (binarization)
+    List<BufferedImage> letterImages; //Isolated images of characters
+    List<double[]> minimizedLetters; //Arrays of minimized letters
+    //IF YOU CHANGE RESOLUTION YOUR DATABASE WILL BREAK!
+    public static int resolution = 5; //The resolution of the minimized letters.
     
+    //TAKES: Some raw BufferedImage
     public Detector(BufferedImage i){
         this.image = i;
         this.letterImages = new ArrayList<>();
@@ -33,24 +38,28 @@ public final class Detector {
         this.isolateLetters();
         this.minimizeLetters();
         this.guessLetters();
-//        this.populateDB("y=");
     }
     
+    //POPULATES: letterImages
     public void isolateLetters(){
-        //Isolate letters here and populate in letterImages
-        boolean onLetter = false;
+        boolean onLetter = false; //Tracks whether the scanner is on a letter or not
+        
+        //Lists of the bounding box coordinates of letters
         List<Integer> leftX = new ArrayList<Integer>();
         List<Integer> rightX = new ArrayList<Integer>();
         List<Integer> topY = new ArrayList<Integer>();
         List<Integer> bottomY = new ArrayList<Integer>();
         
+        //Generate leftX and rightX
         for (int i = 0; i < this.image.getWidth(); i++) {
+            //Sum the columns
             int columnSum = 0;
             for (int j = 0; j < this.image.getHeight(); j++) {
                 Color pixelValue = new Color(this.image.getRGB(i, j));
                 int sum = pixelValue.getRed();
                 columnSum+=sum;
             }
+            //Determine if at the edge of a character
             if(columnSum!=0){
                 if (onLetter == false){
                     onLetter = true;
@@ -64,8 +73,9 @@ public final class Detector {
             }
         }
         
+        //Generate topY and bottomY
         for (int i = 0; i < leftX.size(); i++) {
-            
+            //Scanner from top to bottom, summing rows
             for (int j = 0; j < this.image.getHeight(); j++) {
                 int rowSum = 0;
                 for (int k = leftX.get(i); k < rightX.get(i); k++) {
@@ -77,7 +87,7 @@ public final class Detector {
                     break;
                 }
             }
-            
+            //Scanner from bottom to top, summing rows
             for (int j = this.image.getHeight()-1; j >= 0; j--) {
                 int rowSum = 0;
                 for (int k = leftX.get(i); k < rightX.get(i); k++) {
@@ -90,26 +100,29 @@ public final class Detector {
                 }
             }
         }
-        
+        //Add all the images slices that are greater than 10px by 10px
         for (int i = 0; i < leftX.size(); i++) {
             int width = rightX.get(i)-leftX.get(i);
             int height = bottomY.get(i)-topY.get(i);
-            if(width>10 && height>10){
+            if(width*height>100){
                 letterImages.add(this.image.getSubimage(leftX.get(i), topY.get(i), width, height));
             }
         }
     }
     
+    //POPULATES: minimizedLetters
     public void minimizeLetters(){
+        //Reduce all the letterImages and add to minimizedLetters
         for (int i = 0; i < letterImages.size(); i++) {
             minimizedLetters.add(reduceImage(letterImages.get(i)));
-            for (int j = 0; j < minimizedLetters.get(i).length; j++) {
-            }
         }
     }
     
+    //PARAMETER: An array representing a character
+    //RETURNS: Single guessed from database
     public String guessLetter(double[] reduced) {
         try {
+            //Open database and scan
             File database = new File("database.txt");
             Scanner s = new Scanner(database);
             String guess = "";
@@ -117,9 +130,11 @@ public final class Detector {
             while(s.hasNext()){
                 String letter = s.next();
                 double diff = 0;
+                //Matrix subtraction
                 for (int i = 0; i < resolution*resolution; i++) {
                     diff += Math.abs(s.nextDouble()-reduced[i]);
                 }
+                //Solve for lowest delta
                 if(diff<close){
                     guess = letter;
                     close = diff;
@@ -132,14 +147,20 @@ public final class Detector {
         }
     }
     
+    
+    //POPULATES: content
     public void guessLetters(){
+        //Guess each letter content from minimizedLetters
         for (int i = 0; i < minimizedLetters.size(); i++) {
             this.content+=guessLetter(minimizedLetters.get(i));
         }
     }
     
+    //PARAMETER: correct string of what should have been read
+    //POPULATES: database.txt (FILE)
     public void populateDB(String correct){
         for (int i = 0; i < correct.length(); i++) {
+            //Write character followed by reduced data points to file
             try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("database.txt", true)))) {
                 out.print(correct.charAt(i)+" ");
                 double[] reduced = minimizedLetters.get(i);
@@ -153,9 +174,12 @@ public final class Detector {
         }
     }
     
+    //POPULATES: image
+    //APPLIES: binarization filter (converts from RGB to binary)
     public void binarize(){
         for (int i = 0; i < this.image.getWidth(); i++) {
             for (int j = 0; j < this.image.getHeight(); j++) {
+                //Sums R,G,B components and checks if it should be black or white
                 Color pixelValue = new Color(this.image.getRGB(i, j));
                 int sum = pixelValue.getRed()+pixelValue.getBlue()+pixelValue.getGreen();
                 if (sum>320){
@@ -165,9 +189,10 @@ public final class Detector {
                 }
             }
         }
-        saveImage(this.image, "test");
     }
     
+    //PARAMETERS: Image of character
+    //RETURNS: Reduced array
     public static double[] reduceImage(BufferedImage img){
         double[] reduced = new double[resolution*resolution];
         int reducedWidth = img.getWidth()/resolution;
@@ -178,14 +203,14 @@ public final class Detector {
             for (int j = 0; j < reducedWidth; j++) {
                 for (int k = 0; k < reducedHeight; k++) {
                     sum+=new Color(img.getRGB(reducedWidth*(i%resolution)+j, reducedHeight*(i/resolution)+k)).getRed();
-                    
                 }
             }
-            reduced[i]=sum/(reducedWidth*reducedHeight);
+            reduced[i]= (double) sum/(reducedWidth*reducedHeight);
         }
         return reduced;
     }
     
+    //Saves images
     public static void saveImage(BufferedImage img, String name){
         try {
             File outputFile = new File(name+".png");
