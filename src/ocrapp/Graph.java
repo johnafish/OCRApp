@@ -1,29 +1,34 @@
+// Package declaration
 package ocrapp;
 
-// Imports
+// Imports declaration
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.DISPOSE_ON_CLOSE;
+// End of imports declaration
 
 /**
- * @author David Chen <Darksteal132@gmail.com>
- * @author John Fish <john@johnafish.ca>
+ * @author David Chen
+ * @author John Fish
+ * @author Ryan Mandur
  */
 
 public class Graph extends JFrame {
     
+    // Variables declaration
     public BufferedImage image;
     public double[] roots;
     public double zoom = 1;
     public Equation e;
     public String equation;
     private final int xShift, yShift;
+    // End of variables declaration
     
     /**
-     * Constructor of Graph that takes an Equation object as the argument
+     * Constructor of Graph that takes an Equation object as the argument.
      * @param e equation object
      */
     public Graph(Equation e) {
@@ -77,7 +82,7 @@ public class Graph extends JFrame {
     }
     
     /**
-     * Displays the BufferedImage, roots, title, and buttons
+     * Displays the BufferedImage, roots, title, and buttons.
      * @param g graphics object
      */
     @Override
@@ -106,7 +111,7 @@ public class Graph extends JFrame {
     }
     
     /**
-     * This main method does not depend on any other classes
+     * This main method does not depend on any other classes.
      * @param args the command line arguments
      * @deprecated
      */

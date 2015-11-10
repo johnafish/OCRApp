@@ -8,15 +8,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 /**
+ * @author David Chen
+ * @author John Fish
+ * @author Ryan Mandur
  *
- * @author John Fish <john@johnafish.ca>
- * 
  * TODO: Convert to Javadoc commenting vs sketchy python
  */
 
@@ -45,10 +45,10 @@ public final class Detector {
         boolean onLetter = false; //Tracks whether the scanner is on a letter or not
         
         //Lists of the bounding box coordinates of letters
-        List<Integer> leftX = new ArrayList<Integer>();
-        List<Integer> rightX = new ArrayList<Integer>();
-        List<Integer> topY = new ArrayList<Integer>();
-        List<Integer> bottomY = new ArrayList<Integer>();
+        List<Integer> leftX = new ArrayList<>();
+        List<Integer> rightX = new ArrayList<>();
+        List<Integer> topY = new ArrayList<>();
+        List<Integer> bottomY = new ArrayList<>();
         
         //Generate leftX and rightX
         for (int i = 0; i < this.image.getWidth(); i++) {
@@ -220,9 +220,9 @@ public final class Detector {
         }
     }
     
-    public  void saveCharacters(){
+    public void saveCharacters(){
         for (int i = 0; i < letterImages.size(); i++) {
-            this.saveImage(this.letterImages.get(i), "img"+i);
+            Detector.saveImage(this.letterImages.get(i), "img"+i);
         }
     }
 }

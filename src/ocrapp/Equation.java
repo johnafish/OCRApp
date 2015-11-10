@@ -1,13 +1,11 @@
 package ocrapp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- *
- * @author John Fish <john@johnafish.ca>, Ryan Mandur
+ * @author David Chen
+ * @author John Fish
+ * @author Ryan Mandur
  */
-public class Equation {
+public final class Equation {
     public double a,b,c;
     public int degree;
     //public List<Double[]> roots = new ArrayList<Double[]>();

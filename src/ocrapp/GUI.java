@@ -1,6 +1,7 @@
+// Package declaration
 package ocrapp;
 
-// Imports
+// Imports declaration
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -8,25 +9,41 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+// End of imports declaration
 
 /**
- * @author David Chen <Darksteal132@gmail.com>
+ * <h1>Optical Character Recognition Application</h1>
+ * A program that can graph and solve standard form linear and quadratic
+ * equations from user-inputted images. The user writes their equation, takes a
+ * picture, uploads the picture to the computer, and inputs it into the program.
+ * The program converts the image into a machine-readable equation, and can then
+ * graph and solve the equation. As the user makes corrections to the computer's
+ * mistakes over time, the program evolves to make fewer errors.
+ * 
+ * @author David Chen
+ * @author John Fish
+ * @author Ryan Mandur
+ * @version 1.0
  */
 public class GUI extends javax.swing.JFrame {
     
     /**
-     * GUI Constructor.
+     * Constructor of GUI.
      */
     public GUI() {
+        // Initializes the components of the JFrame
         initComponents();
+        
+        // Sets some properties of the JFrame
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setEnabled(true);
         
         // ChangeListener that detects tab changes
-        boolean enableChangeListener = true; // Set to false for prototype demo
+        boolean enableChangeListener = false; // Set to false for prototype demo
         if (enableChangeListener) {
             tabbedPane.addChangeListener(new ChangeListener() {
                 @Override
@@ -271,11 +288,12 @@ public class GUI extends javax.swing.JFrame {
     public static void main(String args[]) {
         try {
             javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e){
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e){
         }     
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new GUI().setVisible(true);
             }

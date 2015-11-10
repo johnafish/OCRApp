@@ -2,18 +2,15 @@ package ocrapp;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.DISPOSE_ON_CLOSE;
 
 /**
- * @author David Chen <Darksteal132@gmail.com>
- * @author John Fish <john@johnafish.ca>
+ * @author David Chen
+ * @author John Fish
+ * @author Ryan Mandur
  */
-
+@Deprecated
 public class OCRApp extends JFrame {
 
     public OCRApp(){
@@ -41,7 +38,7 @@ public class OCRApp extends JFrame {
 //        } catch (IOException e){
 //            System.out.println("yo");
 //        }
-//    }
+    }
         
         //new Graph("mx+b").setVisible(true);
 }
