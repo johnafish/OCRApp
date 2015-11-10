@@ -1,5 +1,8 @@
 package ocrapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author John Fish <john@johnafish.ca>, Ryan Mandur
@@ -7,12 +10,15 @@ package ocrapp;
 public class Equation {
     public double a,b,c;
     public int degree;
-    public double[]roots = new double[2]; 
+    //public List<Double[]> roots = new ArrayList<Double[]>();
+    public double[] roots = new double[2]; 
     public String equation;
     public double discriminant = (this.b * this.b) - 4*this.a*this.c; // keep this?
+    private char[] newEquation;
     //Constructer
     public Equation(String e){
         this.equation = e;
+        newEquation = clean(this.equation);
         getDegrees();
         getCoefficients();
         getRoots();
@@ -48,27 +54,28 @@ public class Equation {
     }
     private char[] clean(String e){
         String[] t = e.split(" ");
-        String full = "";
+        String full = " ";
         for (String s:t) { full += s; }
-        char[] newEquation = full.toCharArray();
-        return newEquation;
+        full += " ";
+        char[] newString = full.toCharArray();
+        return newString;
     }
     
     //finds coefficients and sets a, b ,c values accordingly 
     void getCoefficients(){
-        char[] newEquation = clean(this.equation);
         char sign = '+';
-        for (int i = 0; i < newEquation.length; i++) {
-           
+        for (int i = 0; i < newEquation.length; i++) {      
             if( newEquation[i] == '-' || newEquation[i] == '+') //checks for sign
                 sign = newEquation[i];
-            
             if( newEquation[i] == 'x' ){
-                int j = i;
+                int j = i - 1;
                 String n = "";
-                while( Character.isDigit( newEquation[j - 1] ) ){
-                            j--;
-                            n += String.valueOf( newEquation[j] );                     
+                while( Character.isDigit( newEquation[j] ) ){ 
+                    n += String.valueOf( newEquation[j] );
+                    if( j - 1 < newEquation.length)
+                        break;
+                    else
+                        j--;
                         }
                 StringBuffer number = new StringBuffer(n).reverse();
                 if ( newEquation[i + 1] == '2') {
@@ -93,37 +100,33 @@ public class Equation {
                 }
             }
             else if( Character.isDigit( newEquation[i] ) &&  newEquation[i] != '0' && this.c == 0){
-                boolean xThere = true;
-                int u;
+                int u = i;
                 String num ="";
                 try{ 
-                    if( newEquation[i + 1] == 'x'){} 
-                    else if( newEquation[i - 1] == 'x'){}
+                    if( newEquation[i + 1] == 'x'){continue;} 
+                    else if( newEquation[i - 1] == 'x'){continue;}
                     }
-                catch( Exception e) { xThere = false; }
-                
-                if( !xThere ){
-                  u = i;
-                  while( Character.isDigit( newEquation[u] )){
-                      num += String.valueOf( newEquation[u] );
-                      if( u + 1 > ( newEquation.length - 1 ) )
-                          break;
-                      else
-                        u++;
-                  }
-                  this.c = Double.parseDouble( sign + String.valueOf( num ) );
+                catch( Exception e) { continue; }
+                while( Character.isDigit( newEquation[u] )){
+                    num += String.valueOf( newEquation[u] );
+                    if( u + 1 > ( newEquation.length - 1 ) )
+                      break;
+                    else{
+                      u++;
+                    }
                 }
-            }
-        } 
-    }
+                try{
+                this.c = Double.parseDouble( sign + String.valueOf( num ) ); 
+                } catch( Exception e){ System.out.println("there is no c value"); }
+                }
+            }    
+        }
     //sets a degree of either 1 or 2
     void getDegrees(){
-        int indexOfDegree = this.equation.indexOf("x") + 1;
-        
-        if( this.equation.substring(indexOfDegree, indexOfDegree + 1).equals("2") )
-            this.degree = 2;
-        else
-            this.degree = 1;
+        this.degree = 1;
+        for (int i = 0; i < newEquation.length; i++) {
+            if( newEquation[i] == 'x' && newEquation[i + 1] == '2')
+                this.degree = 2;
+        }
     }
 }
-
