@@ -2,6 +2,7 @@
 package ocrapp;
 
 // Imports declaration
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -29,7 +30,8 @@ import javax.swing.event.ChangeListener;
  * @version 1.0
  */
 public class GUI extends javax.swing.JFrame {
-    
+    BufferedImage image;
+    Detector d;
     /**
      * Constructor of GUI.
      */
@@ -100,6 +102,16 @@ public class GUI extends javax.swing.JFrame {
 
         inputtedImage.setBackground(new java.awt.Color(225, 245, 254));
         inputtedImage.setForeground(new java.awt.Color(225, 245, 254));
+        inputtedImage.setOpaque(false);
+        inputtedImage.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                inputtedImageAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         javax.swing.GroupLayout inputtedImageLayout = new javax.swing.GroupLayout(inputtedImage);
         inputtedImage.setLayout(inputtedImageLayout);
@@ -161,6 +173,7 @@ public class GUI extends javax.swing.JFrame {
 
         bufferedGraph.setBackground(new java.awt.Color(225, 245, 254));
         bufferedGraph.setForeground(new java.awt.Color(225, 245, 254));
+        bufferedGraph.setOpaque(false);
 
         javax.swing.GroupLayout bufferedGraphLayout = new javax.swing.GroupLayout(bufferedGraph);
         bufferedGraph.setLayout(bufferedGraphLayout);
@@ -260,6 +273,11 @@ public class GUI extends javax.swing.JFrame {
         // Enter database modifying code here
     }//GEN-LAST:event_equationTextFieldActionPerformed
     
+    private void drawMainImage(){
+        Graphics g = inputtedImage.getGraphics();
+        g.drawImage(this.image, 0, 0, this);
+    }
+    
     /**
      * Detects if browseButton is clicked.
      * Attempts to open a JFileChooser, then takes the chosen image,
@@ -270,16 +288,21 @@ public class GUI extends javax.swing.JFrame {
         int returnVal = imageBrowser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
-                BufferedImage img = ImageIO.read(imageBrowser.getSelectedFile());
-                Detector d = new Detector(img);
+                BufferedImage fullImage = ImageIO.read(imageBrowser.getSelectedFile());
+                this.d = new Detector(fullImage);
                 equationTextField.setText(d.content);
-                Graphics g = inputtedImage.getGraphics();
-                BufferedImage i = resize(d.image, inputtedImage.getWidth(), inputtedImage.getHeight());
-                g.drawImage(i, 0, 0, this);
+                this.image = resize(d.image, inputtedImage.getWidth(), inputtedImage.getHeight());
+                this.drawMainImage();
             } catch (IOException e){
             }
         }
     }//GEN-LAST:event_browseButtonMouseClicked
+
+    private void inputtedImageAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_inputtedImageAncestorAdded
+        if(this.d!=null){
+            this.drawMainImage();
+        }
+    }//GEN-LAST:event_inputtedImageAncestorAdded
 
     /**
      * Main method.
