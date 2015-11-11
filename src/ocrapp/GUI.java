@@ -341,13 +341,21 @@ public class GUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_browseButtonMouseClicked
-
+    
+    /**
+     * Redraws inputtedImage.
+     * @param evt AncestorEvent
+     */    
     private void inputtedImageAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_inputtedImageAncestorAdded
         if (this.d != null) {
             this.drawMainImage();
         }
     }//GEN-LAST:event_inputtedImageAncestorAdded
     
+    /**
+     * Redraws bufferedGraph.
+     * @param evt AncestorEvent
+     */
     private void bufferedGraphAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_bufferedGraphAncestorAdded
         if (this.graph != null) {
             this.drawGraph();

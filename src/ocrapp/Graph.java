@@ -37,7 +37,7 @@ public final class Graph {
         this.yShift = this.height/2;
         
         this.drawAxes();
-        //this.graphEquation();
+        this.graphEquation();
     }
 
     /**
@@ -48,7 +48,7 @@ public final class Graph {
         for (int y = 0; y < this.height; y++) {
             for (int x = 0; x < this.width; x++) {
                 if (x == xShift/zoom || y == yShift/zoom) {
-                    image.setRGB(x, y, Color.GRAY.getRGB());
+                    image.setRGB(x, y, Color.LIGHT_GRAY.getRGB());
                 } else {
                     image.setRGB(x, y, Color.WHITE.getRGB());
                 }
@@ -60,14 +60,19 @@ public final class Graph {
      * Displays the function on the BufferedImage.
      */
     public void graphEquation() {
-        if (equation.degree == 1) {
-            for (int x = 0; x < this.width; x++) {
-                int y = (int) (equation.b * x + equation.c);
-                image.setRGB(x, y, Color.GREEN.getRGB());
+        int radius = 2;
+        for (int x = -xShift; x < xShift; x+=1) {
+            try {
+                int y = (int) (equation.a * x * x + equation.b * x + equation.c);
+                //System.out.println(x);
+                //System.out.println(y);
+                for (int i = -radius; i < radius; i++) {
+                    for (int j = -radius; j < radius; j++) {
+                        image.setRGB(-x+xShift+i, y+yShift+j, Color.BLACK.getRGB());
+                    }
+                }
+            } catch (Exception e) {
             }
-        }
-        if (equation.degree == 2) {
-            
         }
     }
 }
