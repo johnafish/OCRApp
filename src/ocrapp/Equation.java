@@ -8,7 +8,6 @@ package ocrapp;
 public final class Equation {
     public double a,b,c;
     public int degree;
-    //public List<Double[]> roots = new ArrayList<Double[]>();
     public double[] roots = new double[2]; 
     public String equation;
     public double discriminant = (this.b * this.b) - 4*this.a*this.c; // keep this?
@@ -22,10 +21,10 @@ public final class Equation {
         getRoots();
     }
     //handles quad formula for finding roots
-    double[] returnQuadraticFormula( double a, double b , double c){
+    static double[] returnQuadraticFormula( double a, double b , double c){
         double positive, negative;
         double[] both = new double[2];
-        //pretty sure this works
+        //values for subtracting root and addition root
         positive = (double) ( (-b + Math.sqrt( (b*b) - 4*a*c) ) / 2*a );
         negative = (double) ( (-b - Math.sqrt( (b*b) - 4*a*c) ) / 2*a );
  
@@ -46,79 +45,67 @@ public final class Equation {
             roots[1] = Double.NaN;
         }
         //fills roots array with returnQF call
-        else{
+        else
             roots = returnQuadraticFormula(this.a, this.b, this.c); // uh you can fix this if you want   
-        }
     }
-    private char[] clean(String e){
+    private char[] clean(String e){ //method for converting string to a workable form
         String[] t = e.split(" ");
-        String full = " ";
+        String full = " "; //space here on purpose( makes it easier to detect first co-E )
         for (String s:t) { full += s; }
         full += " ";
         char[] newString = full.toCharArray();
         return newString;
     }
-    
     //finds coefficients and sets a, b ,c values accordingly 
     void getCoefficients(){
         char sign = '+';
-        for (int i = 0; i < newEquation.length; i++) {      
+        String n;
+        int j;
+        for (int i = 0; i < newEquation.length; i++) {
+            n = ""; //resets n
             if( newEquation[i] == '-' || newEquation[i] == '+') //checks for sign
                 sign = newEquation[i];
-            if( newEquation[i] == 'x' ){
-                int j = i - 1;
-                String n = "";
-                while( Character.isDigit( newEquation[j] ) ){ 
-                    n += String.valueOf( newEquation[j] );
-                    if( j - 1 < newEquation.length)
-                        break;
-                    else
-                        j--;
+            if( newEquation[i] == 'x' ){ //checks for values next to x
+                j = i - 1;
+                while( Character.isDigit( newEquation[j] ) ){ //while loop neccesary for 2+ digit numbers
+                    n += String.valueOf( newEquation[j] ); //creates a string so it can easily be converted to a double
+                    j--;
                         }
-                StringBuffer number = new StringBuffer(n).reverse();
-                if ( newEquation[i + 1] == '2') {
-                    try{
-                        this.a = Double.parseDouble( sign + String.valueOf( number ) );
-                    }
-                    catch( Exception e){
+                StringBuffer number = new StringBuffer(n).reverse(); //reverses string because it always comes backwards
+                if ( newEquation[i + 1] == '2') { //handles for x^2
+                    try{ this.a = Double.parseDouble( sign + String.valueOf( number ) ); } //handles reg numbers
+                    catch( Exception e){ //handles case for when there is no co-efficient of x
                         this.a = 1;
                         if ( sign == '-')
-                            this.a *= -1;
+                            this.a = -1;
                     }
                 }
                 else{ //for quadratic w two x's
-                    try{
-                        this.b = Double.parseDouble( sign + String.valueOf( number ) );
-                    }
+                    try{ this.b = Double.parseDouble( sign + String.valueOf( number ) ); }
                     catch( Exception e ){
                         this.b = 1;
                         if ( sign == '-')
-                            this.b *= -1;
+                            this.b = -1;
                     }
                 }
             }
             else if( Character.isDigit( newEquation[i] ) &&  newEquation[i] != '0' && this.c == 0){
-                int u = i;
-                String num ="";
-                try{ 
-                    if( newEquation[i + 1] == 'x'){continue;} 
-                    else if( newEquation[i - 1] == 'x'){continue;}
+                j = i;
+                try{ if( newEquation[i - 1] == 'x'){continue;} } //change later with "^"
+                catch( Exception e ) { continue; }
+                while( Character.isDigit( newEquation[j] )){
+                    if ( newEquation[j + 1] == 'x'){
+                        n = "0";
+                        break;
                     }
-                catch( Exception e) { continue; }
-                while( Character.isDigit( newEquation[u] )){
-                    num += String.valueOf( newEquation[u] );
-                    if( u + 1 > ( newEquation.length - 1 ) )
-                      break;
-                    else{
-                      u++;
-                    }
+                    n += String.valueOf( newEquation[j] );
+                    j++;            
                 }
-                try{
-                this.c = Double.parseDouble( sign + String.valueOf( num ) ); 
-                } catch( Exception e){ System.out.println("there is no c value"); }
+                try{ this.c = Double.parseDouble( sign + String.valueOf( n ) ); }
+                catch( Exception e) {}
                 }
-            }    
-        }
+            }
+    }
     //sets a degree of either 1 or 2
     void getDegrees(){
         this.degree = 1;
