@@ -98,7 +98,9 @@
                               <Component id="equationLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                               <Component id="equationTextField" min="-2" pref="310" max="-2" attributes="0"/>
-                              <EmptySpace pref="381" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="trainButton" min="-2" pref="109" max="-2" attributes="0"/>
+                              <EmptySpace pref="254" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="inputtedImage" max="32767" attributes="0"/>
@@ -114,9 +116,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="inputtedImage" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="equationTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="equationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="equationTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="equationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="trainButton" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="16" max="32767" attributes="0"/>
                   </Group>
@@ -175,6 +180,14 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Equation:"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="trainButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Train"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="trainButtonMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

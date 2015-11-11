@@ -85,6 +85,7 @@ public class GUI extends javax.swing.JFrame {
         inputtedImage = new javax.swing.JPanel();
         equationTextField = new javax.swing.JTextField();
         equationLabel = new javax.swing.JLabel();
+        trainButton = new javax.swing.JButton();
         graphTab = new javax.swing.JPanel();
         bufferedGraph = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
@@ -139,6 +140,13 @@ public class GUI extends javax.swing.JFrame {
         equationLabel.setForeground(new java.awt.Color(153, 0, 0));
         equationLabel.setText("Equation:");
 
+        trainButton.setText("Train");
+        trainButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                trainButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainTabLayout = new javax.swing.GroupLayout(mainTab);
         mainTab.setLayout(mainTabLayout);
         mainTabLayout.setHorizontalGroup(
@@ -151,7 +159,9 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(equationLabel)
                         .addGap(4, 4, 4)
                         .addComponent(equationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(381, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(trainButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(254, Short.MAX_VALUE))
                     .addGroup(mainTabLayout.createSequentialGroup()
                         .addComponent(inputtedImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
@@ -162,9 +172,11 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(inputtedImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(mainTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(equationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(equationLabel))
+                .addGroup(mainTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(mainTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(equationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(equationLabel))
+                    .addComponent(trainButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -329,6 +341,10 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bufferedGraphAncestorAdded
 
+    private void trainButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trainButtonMouseClicked
+        d.populateDB(equationTextField.getText());
+    }//GEN-LAST:event_trainButtonMouseClicked
+
     /**
      * Main method.
      * @param args the command line arguments
@@ -359,5 +375,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel mainTab;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JButton trainButton;
     // End of variables declaration//GEN-END:variables
 }
