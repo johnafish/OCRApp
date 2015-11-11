@@ -3,6 +3,7 @@ package ocrapp;
 
 // Imports declaration
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 // End of imports declaration
 
@@ -60,17 +61,15 @@ public final class Graph {
      * Displays the function on the BufferedImage.
      */
     public void graphEquation() {
-        int radius = 2;
+        int xPrev = -xShift, yPrev = (int) -(equation.a * xPrev * xPrev + equation.b * xPrev + equation.c);
+        Graphics2D g = image.createGraphics();
+        g.setColor(Color.BLACK);
         for (int x = -xShift; x < xShift; x+=1) {
             try {
-                int y = (int) (equation.a * x * x + equation.b * x + equation.c);
-                //System.out.println(x);
-                //System.out.println(y);
-                for (int i = -radius; i < radius; i++) {
-                    for (int j = -radius; j < radius; j++) {
-                        image.setRGB(-x+xShift+i, y+yShift+j, Color.BLACK.getRGB());
-                    }
-                }
+                int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
+                g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
+                xPrev = x;
+                yPrev = y;
             } catch (Exception e) {
             }
         }
