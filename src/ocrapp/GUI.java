@@ -2,7 +2,6 @@
 package ocrapp;
 
 // Imports declaration
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -30,10 +29,14 @@ import javax.swing.event.ChangeListener;
  * @version 1.0
  */
 public class GUI extends javax.swing.JFrame {
+    
+    // Variables declaration
     BufferedImage image;
     Detector d;
     Equation equation;
     Graph graph;
+    // End of variables declaration
+    
     /**
      * Constructor of GUI.
      */
@@ -59,11 +62,10 @@ public class GUI extends javax.swing.JFrame {
                     if (tabbedPane.getSelectedIndex() == 1) {
                         System.out.println("Graph Tab");
                         Graphics g = bufferedGraph.getGraphics();
-                        Graph graph = new Graph("mx+b");
-                        graph.construct();
-                        BufferedImage i = resize(graph.image, bufferedGraph.getWidth(), bufferedGraph.getHeight());
-                        //graph.paint(g);
-                        g.drawImage(i, 0, 0, bufferedGraph);
+                        Graph graph = new Graph(equation, bufferedGraph.getWidth(), bufferedGraph.getHeight());
+                        g.drawImage(graph.image, 0, 0, bufferedGraph);
+                        //BufferedImage i = resize(graph.image, bufferedGraph.getWidth(), bufferedGraph.getHeight());
+                        //g.drawImage(i, 0, 0, bufferedGraph);
                     }
                 }
             });        
@@ -140,7 +142,10 @@ public class GUI extends javax.swing.JFrame {
         equationLabel.setForeground(new java.awt.Color(153, 0, 0));
         equationLabel.setText("Equation:");
 
+        trainButton.setBackground(new java.awt.Color(41, 182, 246));
+        trainButton.setForeground(new java.awt.Color(1, 87, 155));
         trainButton.setText("Train");
+        trainButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         trainButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 trainButtonMouseClicked(evt);
@@ -160,8 +165,8 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(4, 4, 4)
                         .addComponent(equationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(trainButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(254, Short.MAX_VALUE))
+                        .addComponent(trainButton)
+                        .addContainerGap(302, Short.MAX_VALUE))
                     .addGroup(mainTabLayout.createSequentialGroup()
                         .addComponent(inputtedImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
@@ -235,6 +240,7 @@ public class GUI extends javax.swing.JFrame {
         titleLabel.setToolTipText("");
 
         browseButton.setBackground(new java.awt.Color(41, 182, 246));
+        browseButton.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         browseButton.setForeground(new java.awt.Color(1, 87, 155));
         browseButton.setText("Browse");
         browseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -252,17 +258,19 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(titleLabel)
-                .addGap(208, 208, 208)
-                .addComponent(browseButton)
+                .addGap(193, 193, 193)
+                .addComponent(browseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(browseButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(browseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(2, 2, 2))
+                    .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -272,10 +280,10 @@ public class GUI extends javax.swing.JFrame {
     
     /**
      * Resizes a BufferedImage to a new specified width and height.
-     * @param img Original BufferedImage
-     * @param newW New width
-     * @param newH New height
-     * @return Resized BufferedImage
+     * @param img original BufferedImage
+     * @param newW new width
+     * @param newH new height
+     * @return resized BufferedImage
      */
     public static BufferedImage resize(BufferedImage img, int newW, int newH) { 
         Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
@@ -292,15 +300,20 @@ public class GUI extends javax.swing.JFrame {
      * @param evt ActionEvent
      */
     private void equationTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equationTextFieldActionPerformed
-        System.out.println("Equation changed to: " + evt.getActionCommand());
-        // Enter database modifying code here
+        d.populateDB(equationTextField.getText());
     }//GEN-LAST:event_equationTextFieldActionPerformed
     
+    /**
+     * Draws BufferedImage inputtedImage.
+     */
     private void drawMainImage(){
         Graphics g = inputtedImage.getGraphics();
         g.drawImage(this.image, 0, 0, this);
     }
     
+    /**
+     * Draws BufferedImage inputtedImage.
+     */
     private void drawGraph(){
         Graphics g = bufferedGraph.getGraphics();
         g.drawImage(graph.image, 0, 0, this);
@@ -330,17 +343,21 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_browseButtonMouseClicked
 
     private void inputtedImageAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_inputtedImageAncestorAdded
-        if(this.d!=null){
+        if (this.d != null) {
             this.drawMainImage();
         }
     }//GEN-LAST:event_inputtedImageAncestorAdded
-
+    
     private void bufferedGraphAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_bufferedGraphAncestorAdded
-        if(this.graph!=null){
+        if (this.graph != null) {
             this.drawGraph();
         }
     }//GEN-LAST:event_bufferedGraphAncestorAdded
-
+    
+    /**
+     * Populates the database when JButton trainButton is clicked.
+     * @param evt MouseEvent
+     */
     private void trainButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trainButtonMouseClicked
         d.populateDB(equationTextField.getText());
     }//GEN-LAST:event_trainButtonMouseClicked
