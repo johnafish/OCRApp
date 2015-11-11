@@ -32,6 +32,8 @@ import javax.swing.event.ChangeListener;
 public class GUI extends javax.swing.JFrame {
     BufferedImage image;
     Detector d;
+    Equation equation;
+    Graph graph;
     /**
      * Constructor of GUI.
      */
@@ -174,6 +176,15 @@ public class GUI extends javax.swing.JFrame {
         bufferedGraph.setBackground(new java.awt.Color(225, 245, 254));
         bufferedGraph.setForeground(new java.awt.Color(225, 245, 254));
         bufferedGraph.setOpaque(false);
+        bufferedGraph.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                bufferedGraphAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         javax.swing.GroupLayout bufferedGraphLayout = new javax.swing.GroupLayout(bufferedGraph);
         bufferedGraph.setLayout(bufferedGraphLayout);
@@ -278,6 +289,11 @@ public class GUI extends javax.swing.JFrame {
         g.drawImage(this.image, 0, 0, this);
     }
     
+    private void drawGraph(){
+        Graphics g = bufferedGraph.getGraphics();
+        g.drawImage(graph.image, 0, 0, this);
+    }
+    
     /**
      * Detects if browseButton is clicked.
      * Attempts to open a JFileChooser, then takes the chosen image,
@@ -290,7 +306,10 @@ public class GUI extends javax.swing.JFrame {
             try {
                 BufferedImage fullImage = ImageIO.read(imageBrowser.getSelectedFile());
                 this.d = new Detector(fullImage);
-                equationTextField.setText(d.content);
+                String guess = d.content;
+                equationTextField.setText(guess);
+                this.equation = new Equation(guess);
+                this.graph = new Graph(this.equation, bufferedGraph.getWidth(), bufferedGraph.getHeight());
                 this.image = resize(d.image, inputtedImage.getWidth(), inputtedImage.getHeight());
                 this.drawMainImage();
             } catch (IOException e){
@@ -303,6 +322,12 @@ public class GUI extends javax.swing.JFrame {
             this.drawMainImage();
         }
     }//GEN-LAST:event_inputtedImageAncestorAdded
+
+    private void bufferedGraphAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_bufferedGraphAncestorAdded
+        if(this.graph!=null){
+            this.drawGraph();
+        }
+    }//GEN-LAST:event_bufferedGraphAncestorAdded
 
     /**
      * Main method.
