@@ -99,8 +99,6 @@ public final class Equation {
                         n = "0";
                         break;
                     }
-                    else if( newEquation[j - 1] == '.' )
-                        n += ".";
                     n += String.valueOf( newEquation[j] );
                     j++;            
                 }
