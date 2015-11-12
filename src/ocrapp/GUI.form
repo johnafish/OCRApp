@@ -103,7 +103,7 @@
                               <Component id="equationTextField" min="-2" pref="310" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="trainButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="302" max="32767" attributes="0"/>
+                              <EmptySpace pref="306" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="inputtedImage" max="32767" attributes="0"/>
