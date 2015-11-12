@@ -61,7 +61,8 @@ public final class Graph {
      * Displays the function on the BufferedImage.
      */
     public void graphEquation() {
-        int xPrev = -xShift, yPrev = (int) -(equation.a * xPrev * xPrev + equation.b * xPrev + equation.c);
+        int xPrev = -xShift;
+        int yPrev = (int) -(equation.a * xPrev * xPrev + equation.b * xPrev + equation.c);
         Graphics2D g = image.createGraphics();
         g.setColor(Color.BLACK);
         for (int x = -xShift; x < xShift; x+=1) {
