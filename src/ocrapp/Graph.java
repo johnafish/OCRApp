@@ -64,15 +64,12 @@ public final class Graph {
         int xPrev = -xShift;
         int yPrev = (int) -(equation.a * xPrev * xPrev + equation.b * xPrev + equation.c);
         Graphics2D g = image.createGraphics();
-        g.setColor(Color.BLACK);
+        g.setColor(Color.RED);
         for (int x = -xShift; x < xShift; x+=1) {
-            try {
-                int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
-                g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
-                xPrev = x;
-                yPrev = y;
-            } catch (Exception e) {
-            }
+            int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
+            g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
+            xPrev = x;
+            yPrev = y;
         }
     }
 }

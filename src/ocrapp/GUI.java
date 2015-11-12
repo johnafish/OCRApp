@@ -300,7 +300,12 @@ public class GUI extends javax.swing.JFrame {
      * @param evt ActionEvent
      */
     private void equationTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equationTextFieldActionPerformed
-        d.populateDB(equationTextField.getText());
+        try {
+            d.populateDB(equationTextField.getText());
+        } catch (Exception e) {
+            this.equation = new Equation(equationTextField.getText());
+            this.graph = new Graph(this.equation, bufferedGraph.getWidth(), bufferedGraph.getHeight());
+        }
     }//GEN-LAST:event_equationTextFieldActionPerformed
     
     /**
@@ -367,7 +372,12 @@ public class GUI extends javax.swing.JFrame {
      * @param evt MouseEvent
      */
     private void trainButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trainButtonMouseClicked
-        d.populateDB(equationTextField.getText());
+        try {
+            d.populateDB(equationTextField.getText());
+        } catch (Exception e) {
+            this.equation = new Equation(equationTextField.getText());
+            this.graph = new Graph(this.equation, bufferedGraph.getWidth(), bufferedGraph.getHeight());
+        }
     }//GEN-LAST:event_trainButtonMouseClicked
 
     /**
