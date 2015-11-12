@@ -1,5 +1,6 @@
 package ocrapp;
 
+
 /**
  * @author David Chen
  * @author John Fish
@@ -67,10 +68,10 @@ public final class Equation {
                 sign = newEquation[i];
             if( newEquation[i] == 'x' || newEquation[i] == 'y' ){ //checks for values next to x
                 j = i - 1;
-                while( Character.isDigit( newEquation[j] ) ){ //while loop neccesary for 2+ digit numbers
+                while( Character.isDigit( newEquation[j] ) || newEquation[j] == '.' ){ //while loop neccesary for 2+ digit numbers
                     n += String.valueOf( newEquation[j] ); //creates a string so it can easily be converted to a double
                     j--;
-                        }
+                }
                 StringBuffer number = new StringBuffer(n).reverse(); //reverses string because it always comes backwards
                 if ( newEquation[i + 1] == '2' || newEquation[i + 1] == '^' ) { //handles for x^2
                     try{ this.a = Double.parseDouble( sign + String.valueOf( number ) ); } //handles reg numbers
@@ -91,13 +92,15 @@ public final class Equation {
             }
             else if( Character.isDigit( newEquation[i] ) &&  newEquation[i] != '0' && this.c == 0){
                 j = i;
-                try{ if( newEquation[i - 1] == 'x'){continue;} } //change later with "^"
+                try{ if( newEquation[i - 1] == 'x' || newEquation[i - 1] == '^' ){continue;} } //change later with "^"
                 catch( Exception e ) { continue; }
-                while( Character.isDigit( newEquation[j] )){
+                while( Character.isDigit( newEquation[j] ) || newEquation[j] == '.'){
                     if ( newEquation[j + 1] == 'x'){
                         n = "0";
                         break;
                     }
+                    else if( newEquation[j - 1] == '.' )
+                        n += ".";
                     n += String.valueOf( newEquation[j] );
                     j++;            
                 }
@@ -110,7 +113,7 @@ public final class Equation {
     void getDegrees(){
         this.degree = 1;
         for (int i = 0; i < newEquation.length; i++) {
-            if( newEquation[i] == 'x' && newEquation[i + 1] == '2')
+            if(newEquation[i] == 'x' && ( newEquation[i + 1] == '2' || newEquation[i + 1] == '^' ))
                 this.degree = 2;
         }
     }
