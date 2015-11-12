@@ -36,7 +36,7 @@ public final class Equation {
     //solves for the roots of this equation
     void getRoots(){
         if( this.degree == 1){
-            roots[0] = (double)( -this.c / this.a ); //assuming b is 0
+            roots[0] = (double)( -this.c / this.b ); //technically should be a
             roots[1] = Double.NaN;
         }
         //checks for real roots
@@ -65,14 +65,14 @@ public final class Equation {
             n = ""; //resets n
             if( newEquation[i] == '-' || newEquation[i] == '+') //checks for sign
                 sign = newEquation[i];
-            if( newEquation[i] == 'x' ){ //checks for values next to x
+            if( newEquation[i] == 'x' || newEquation[i] == 'y' ){ //checks for values next to x
                 j = i - 1;
                 while( Character.isDigit( newEquation[j] ) ){ //while loop neccesary for 2+ digit numbers
                     n += String.valueOf( newEquation[j] ); //creates a string so it can easily be converted to a double
                     j--;
                         }
                 StringBuffer number = new StringBuffer(n).reverse(); //reverses string because it always comes backwards
-                if ( newEquation[i + 1] == '2') { //handles for x^2
+                if ( newEquation[i + 1] == '2' || newEquation[i + 1] == '^' ) { //handles for x^2
                     try{ this.a = Double.parseDouble( sign + String.valueOf( number ) ); } //handles reg numbers
                     catch( Exception e){ //handles case for when there is no co-efficient of x
                         this.a = 1;
