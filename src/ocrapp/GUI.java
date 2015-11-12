@@ -2,6 +2,7 @@
 package ocrapp;
 
 // Imports declaration
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -318,21 +319,11 @@ public class GUI extends javax.swing.JFrame {
     }
     
     /**
-     * Draws BufferedImage inputtedImage.
+     * Draws BufferedImage bufferedGraph.
      */
     private void drawGraph(){
         Graphics g = bufferedGraph.getGraphics();
         g.drawImage(graph.image, 0, 0, this);
-        System.out.println(equation.roots[0] + " " + equation.roots[1]);
-        g.setFont(new Font("Arial", Font.BOLD, 16));
-        g.drawString("ROOT(S):", 25, bufferedGraph.getHeight()-75);
-        g.setFont(new Font("Arial", Font.PLAIN, 15));
-        if (!Double.isNaN(equation.roots[0])) {
-            g.drawString(String.valueOf(equation.roots[0]), 25, bufferedGraph.getHeight()-50);
-        }
-        if (!Double.isNaN(equation.roots[1])) {
-            g.drawString(String.valueOf(equation.roots[1]), 25, bufferedGraph.getHeight()-25);
-        }
     }
     
     /**

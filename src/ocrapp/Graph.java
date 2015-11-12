@@ -3,6 +3,7 @@ package ocrapp;
 
 // Imports declaration
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 // End of imports declaration
@@ -39,10 +40,11 @@ public final class Graph {
         
         this.drawAxes();
         this.graphEquation();
+        this.showRoots();
     }
 
     /**
-     * Constructs the BufferedImage by drawing the axes, 
+     * Constructs the BufferedImage by drawing and labeling the axes, 
      * and setting the background to white.
      */
     public void drawAxes() {                
@@ -55,6 +57,23 @@ public final class Graph {
                 }
             }
         }
+        
+        Graphics2D g = image.createGraphics();     
+        
+        g.setColor(Color.GRAY);
+        g.setFont(new Font("Helvetica", Font.PLAIN, 10));
+        for (int x = 0; x < image.getWidth(); x++) {
+            if (x % 25 == 0) {
+                String xLabel = String.valueOf(x - xShift);
+                g.drawString(xLabel, x-10, yShift+12);
+            }
+        }
+        for (int y = 0; y < image.getWidth(); y++) {
+            if (y % 25 == 0 && y != yShift) {
+                String yLabel = String.valueOf(y - yShift);
+                g.drawString(yLabel, xShift-25, y+10);
+            }
+        }
     }
     
     /**
@@ -63,13 +82,34 @@ public final class Graph {
     public void graphEquation() {
         int xPrev = -xShift;
         int yPrev = (int) -(equation.a * xPrev * xPrev + equation.b * xPrev + equation.c);
+        
         Graphics2D g = image.createGraphics();
+        
         g.setColor(Color.RED);
         for (int x = -xShift; x < xShift; x+=1) {
             int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
             g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
             xPrev = x;
             yPrev = y;
+        }
+    }
+    
+    /**
+     * Shows the roots on the BufferedImage.
+     */
+    public void showRoots() {
+        Graphics2D g = image.createGraphics();
+        
+        g.setColor(Color.DARK_GRAY);
+        g.setFont(new Font("Arial", Font.BOLD, 16));
+        g.drawString("ROOT(S):", 25, image.getHeight()-75);
+        g.setFont(new Font("Arial", Font.PLAIN, 15));
+        
+        if (!Double.isNaN(equation.roots[0])) {
+            g.drawString(String.valueOf(equation.roots[0]), 25, image.getHeight()-50);
+        }
+        if (!Double.isNaN(equation.roots[1])) {
+            g.drawString(String.valueOf(equation.roots[1]), 25, image.getHeight()-25);
         }
     }
 }
