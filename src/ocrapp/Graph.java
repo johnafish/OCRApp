@@ -70,7 +70,7 @@ public final class Graph {
         }
         for (int y = 0; y < image.getWidth(); y++) {
             if (y % 25 == 0 && y != yShift) {
-                String yLabel = String.valueOf(y - yShift);
+                String yLabel = String.valueOf(-(y -yShift));
                 g.drawString(yLabel, xShift-25, y+10);
             }
         }
