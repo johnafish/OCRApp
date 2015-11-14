@@ -86,11 +86,15 @@ public final class Graph {
         Graphics2D g = image.createGraphics();
         
         g.setColor(Color.RED);
-        for (int x = -xShift; x < xShift; x+=1) {
-            int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
-            g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
-            xPrev = x;
-            yPrev = y;
+        if (!equation.isVertical) {
+            for (int x = -xShift; x < xShift; x+=1) {
+                int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
+                g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
+                xPrev = x;
+                yPrev = y;
+            }
+        } else {
+            g.drawLine((int) equation.c + xShift, 0, (int) equation.c+xShift, image.getHeight());
         }
     }
     
@@ -105,11 +109,18 @@ public final class Graph {
         g.drawString("ROOT(S):", 25, image.getHeight()-75);
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         
-        if (!Double.isNaN(equation.roots[0])) {
-            g.drawString(String.valueOf(equation.roots[0]), 25, image.getHeight()-50);
+        if (equation.roots[0] == equation.roots[1]) {
+            g.drawString(String.valueOf(equation.roots[1]), 25, image.getHeight()-50);
+        } else {
+            if (!Double.isNaN(equation.roots[0])) {
+                g.drawString(String.valueOf(equation.roots[0]), 25, image.getHeight()-50);
+            }
+            if (!Double.isNaN(equation.roots[1])) {
+                g.drawString(String.valueOf(equation.roots[1]), 25, image.getHeight()-25);
+            }
         }
-        if (!Double.isNaN(equation.roots[1])) {
-            g.drawString(String.valueOf(equation.roots[1]), 25, image.getHeight()-25);
+        if (Double.isNaN(equation.roots[0]) && Double.isNaN(equation.roots[1])) {
+            g.drawString("No roots", 25, image.getHeight()-50);
         }
     }
 }
