@@ -66,7 +66,7 @@ public final class Equation {
             n = ""; //resets n
             if( newEquation[i] == '-' || newEquation[i] == '+') //checks for sign
                 sign = newEquation[i];
-            if( newEquation[i] == 'x' || newEquation[i] == 'y' ){ //checks for values next to x
+            if( newEquation[i] == 'x' && (newEquation[i+1] == 'x' && newEquation[i-1] != '=')){ //checks for values next to x
                 j = i - 1;
                 while( Character.isDigit( newEquation[j] ) || newEquation[j] == '.' ){ //while loop neccesary for 2+ digit numbers
                     n += String.valueOf( newEquation[j] ); //creates a string so it can easily be converted to a double
