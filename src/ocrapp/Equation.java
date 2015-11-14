@@ -14,6 +14,7 @@ public final class Equation {
     public double discriminant = (this.b * this.b) - 4*this.a*this.c; // keep this?
     private char[] newEquation;
     public boolean isVertical = false;
+    public boolean isHorizontal = false;
     //Constructer
     public Equation(String e){
         this.equation = e;
@@ -123,10 +124,12 @@ public final class Equation {
                 catch( Exception e) {}
                 }
             }
+        if( this.a == 0 && this.b == 0 && !isVertical)
+            isHorizontal = true;
     }
     //sets a degree of either 1 or 2
     void getDegrees(){
-        if( isVertical )
+        if( isVertical || isHorizontal )
             this.degree = 0;
         else
             this.degree = 1;
