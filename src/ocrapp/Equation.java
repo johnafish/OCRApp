@@ -12,7 +12,7 @@ public final class Equation {
     public double[] roots = new double[2]; 
     public String equation;
     public double discriminant = (this.b * this.b) - 4*this.a*this.c; // keep this?
-    private char[] newEquation;
+    private final char[] newEquation;
     public boolean isVertical = false;
     public boolean isHorizontal = false;
     //Constructer

@@ -2,8 +2,6 @@
 package ocrapp;
 
 // Imports declaration
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -12,8 +10,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 // End of imports declaration
 
 /**
@@ -28,7 +24,7 @@ import javax.swing.event.ChangeListener;
  * @author David Chen
  * @author John Fish
  * @author Ryan Mandur
- * @version 1.0
+ * @version 2.0 FINAL
  */
 public class GUI extends javax.swing.JFrame {
     
@@ -50,28 +46,6 @@ public class GUI extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setEnabled(true);
-        
-        // ChangeListener that detects tab changes
-        boolean enableChangeListener = false; // Set to false for prototype demo
-        if (enableChangeListener) {
-            tabbedPane.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    //System.out.println(tabbedPane.getSelectedIndex());
-                    if (tabbedPane.getSelectedIndex() == 0) {
-                        System.out.println("Main Tab");
-                    }
-                    if (tabbedPane.getSelectedIndex() == 1) {
-                        System.out.println("Graph Tab");
-                        Graphics g = bufferedGraph.getGraphics();
-                        Graph graph = new Graph(equation, bufferedGraph.getWidth(), bufferedGraph.getHeight());
-                        g.drawImage(graph.image, 0, 0, bufferedGraph);
-                        //BufferedImage i = resize(graph.image, bufferedGraph.getWidth(), bufferedGraph.getHeight());
-                        //g.drawImage(i, 0, 0, bufferedGraph);
-                    }
-                }
-            });        
-        }
     }
 
     /**

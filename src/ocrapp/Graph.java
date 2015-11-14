@@ -17,7 +17,7 @@ public final class Graph {
     
     // Variables declaration
     public BufferedImage image;
-    public double zoom;
+    public double zoom; // Not implemented yet
     public Equation equation;
     private final int xShift, yShift;
     private final int width, height;

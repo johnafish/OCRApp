@@ -10,13 +10,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import javax.imageio.ImageIO;
 
 /**
  * @author David Chen
  * @author John Fish
  * @author Ryan Mandur
- *
  */
 
 public final class Detector {
@@ -119,8 +117,8 @@ public final class Detector {
      */
     public void minimizeLetters(){
         //Reduce all the letterImages and add to minimizedLetters
-        for (int i = 0; i < letterImages.size(); i++) {
-            minimizedLetters.add(reduceImage(letterImages.get(i)));
+        for (BufferedImage letterImage : letterImages) {
+            minimizedLetters.add(reduceImage(letterImage));
         }
     }
     
@@ -162,8 +160,8 @@ public final class Detector {
      */
     public void guessLetters(){
         //Guess each letter content from minimizedLetters
-        for (int i = 0; i < minimizedLetters.size(); i++) {
-            this.content+=guessLetter(minimizedLetters.get(i));
+        for (double[] minimizedLetter : minimizedLetters) {
+            this.content += guessLetter(minimizedLetter);
         }
     }
     
