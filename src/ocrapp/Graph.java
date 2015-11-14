@@ -109,11 +109,18 @@ public final class Graph {
         g.drawString("ROOT(S):", 25, image.getHeight()-75);
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         
-        if (!Double.isNaN(equation.roots[0])) {
-            g.drawString(String.valueOf(equation.roots[0]), 25, image.getHeight()-50);
+        if (equation.roots[0] == equation.roots[1]) {
+            g.drawString(String.valueOf(equation.roots[1]), 25, image.getHeight()-50);
+        } else {
+            if (!Double.isNaN(equation.roots[0])) {
+                g.drawString(String.valueOf(equation.roots[0]), 25, image.getHeight()-50);
+            }
+            if (!Double.isNaN(equation.roots[1])) {
+                g.drawString(String.valueOf(equation.roots[1]), 25, image.getHeight()-25);
+            }
         }
-        if (!Double.isNaN(equation.roots[1])) {
-            g.drawString(String.valueOf(equation.roots[1]), 25, image.getHeight()-25);
+        if (Double.isNaN(equation.roots[0]) && Double.isNaN(equation.roots[1])) {
+            g.drawString("No roots", 25, image.getHeight()-50);
         }
     }
 }
