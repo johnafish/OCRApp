@@ -86,11 +86,15 @@ public final class Graph {
         Graphics2D g = image.createGraphics();
         
         g.setColor(Color.RED);
-        for (int x = -xShift; x < xShift; x+=1) {
-            int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
-            g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
-            xPrev = x;
-            yPrev = y;
+        if (!equation.isVertical) {
+            for (int x = -xShift; x < xShift; x++) {
+                int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
+                g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
+                xPrev = x;
+                yPrev = y;
+            }
+        } else {
+            g.drawLine((int) equation.c + xShift, 0, (int) equation.c + xShift, image.getHeight());
         }
     }
     

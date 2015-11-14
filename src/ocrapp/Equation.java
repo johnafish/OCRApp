@@ -1,5 +1,4 @@
-package test;
-
+package ocrapp;
 
 /**
  * @author David Chen
