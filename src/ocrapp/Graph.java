@@ -60,10 +60,7 @@ public final class Graph {
         
         Graphics2D g = image.createGraphics();     
         
-        System.out.println(xShift);
-        System.out.println(yShift);
-        
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(Color.GRAY);
         g.setFont(new Font("Helvetica", Font.PLAIN, 10));
         for (int x = 0; x < image.getWidth(); x++) {
             if (x % 25 == 0) {
@@ -90,7 +87,6 @@ public final class Graph {
         
         g.setColor(Color.RED);
         for (int x = -xShift; x < xShift; x+=1) {
-            System.out.println(equation.a + " " + equation.b + " " + equation.c);
             int y = (int) -(equation.a * x * x + equation.b * x + equation.c);
             g.drawLine(xPrev+xShift, yPrev+yShift, x+xShift, y+yShift);
             xPrev = x;
@@ -114,9 +110,6 @@ public final class Graph {
         }
         if (!Double.isNaN(equation.roots[1])) {
             g.drawString(String.valueOf(equation.roots[1]), 25, image.getHeight()-25);
-        }
-        if (Double.isNaN(equation.roots[0]) && Double.isNaN(equation.roots[0])) {
-            g.drawString("No roots", 25, image.getHeight()-50);
         }
     }
 }
