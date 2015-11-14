@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
  * @author John Fish
  * @author Ryan Mandur
  *
- * TODO: Convert to Javadoc commenting vs sketchy python
  */
 
 public final class Detector {
@@ -29,7 +28,10 @@ public final class Detector {
     //IF YOU CHANGE RESOLUTION YOUR DATABASE WILL BREAK!
     public static int resolution = 5; //The resolution of the minimized letters.
     
-    //TAKES: Some raw BufferedImage
+    /**
+     * Constructor of Detector
+     * @param i BufferedImage to be read from
+     */
     public Detector(BufferedImage i){
         this.image = i;
         this.letterImages = new ArrayList<>();
@@ -40,7 +42,9 @@ public final class Detector {
         this.guessLetters();
     }
     
-    //POPULATES: letterImages
+    /**
+     * Populates the letterImages array
+     */
     public void isolateLetters(){
         boolean onLetter = false; //Tracks whether the scanner is on a letter or not
         
@@ -110,7 +114,9 @@ public final class Detector {
         }
     }
     
-    //POPULATES: minimizedLetters
+    /**
+     * Populates the minimizedLetters array
+     */
     public void minimizeLetters(){
         //Reduce all the letterImages and add to minimizedLetters
         for (int i = 0; i < letterImages.size(); i++) {
@@ -118,8 +124,11 @@ public final class Detector {
         }
     }
     
-    //PARAMETER: An array representing a character
-    //RETURNS: Single guessed from database
+    /**
+     * Guesses the most likely letter for an array
+     * @param reduced double array from minimizedLetters
+     * @return single character guessed from database
+     */
     public String guessLetter(double[] reduced) {
         try {
             //Open database and scan
@@ -148,7 +157,9 @@ public final class Detector {
     }
     
     
-    //POPULATES: content
+    /**
+     * Populates the content string with guesses
+     */
     public void guessLetters(){
         //Guess each letter content from minimizedLetters
         for (int i = 0; i < minimizedLetters.size(); i++) {
@@ -156,8 +167,11 @@ public final class Detector {
         }
     }
     
-    //PARAMETER: correct string of what should have been read
-    //POPULATES: database.txt (FILE)
+    /**
+     * Populates database.txt based on the reduced values of an image and a correct string
+     * @param correct 
+     * Populates the database.txt file
+     */
     public void populateDB(String correct){
         for (int i = 0; i < correct.length(); i++) {
             //Write character followed by reduced data points to file
@@ -174,8 +188,9 @@ public final class Detector {
         }
     }
     
-    //POPULATES: image
-    //APPLIES: binarization filter (converts from RGB to binary)
+    /**
+     * Binarizes image (RGB -> true black or true white)
+     */
     public void binarize(){
         for (int i = 0; i < this.image.getWidth(); i++) {
             for (int j = 0; j < this.image.getHeight(); j++) {
@@ -191,8 +206,11 @@ public final class Detector {
         }
     }
     
-    //PARAMETERS: Image of character
-    //RETURNS: Reduced array
+    /**
+     * Converts image to a reduced array of doubles
+     * @param img
+     * @return reduced double array of image
+     */
     public static double[] reduceImage(BufferedImage img){
         double[] reduced = new double[resolution*resolution];
         int reducedWidth = img.getWidth()/resolution;
@@ -208,21 +226,5 @@ public final class Detector {
             reduced[i]= (double) sum/(reducedWidth*reducedHeight);
         }
         return reduced;
-    }
-    
-    //Saves images
-    public static void saveImage(BufferedImage img, String name){
-        try {
-            File outputFile = new File(name+".png");
-            ImageIO.write(img, "png", outputFile);
-        } catch (IOException e){
-            System.out.println("Error saving.");
-        }
-    }
-    
-    public void saveCharacters(){
-        for (int i = 0; i < letterImages.size(); i++) {
-            Detector.saveImage(this.letterImages.get(i), "img"+i);
-        }
     }
 }
