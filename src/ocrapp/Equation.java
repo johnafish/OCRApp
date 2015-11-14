@@ -1,4 +1,4 @@
-package test;
+package ocrapp;
 
 
 /**
@@ -47,9 +47,13 @@ public final class Equation {
             roots[1] = Double.NaN;
         }
         else if ( this.degree == 0){
-            if ( this.c != 0){
+            if ( this.c != 0 && !isVertical){
                 roots[0] = Double.NaN;
                 roots[1] = Double.NaN;
+            }
+            else if( isVertical ){
+                roots[0] = this.c;
+                roots[1] = Double.NaN;    
             }
             else{
                 roots[0] = Double.POSITIVE_INFINITY;
