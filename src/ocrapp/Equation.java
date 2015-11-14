@@ -1,4 +1,4 @@
-package ocrapp;
+package test;
 
 
 /**
@@ -13,12 +13,13 @@ public final class Equation {
     public String equation;
     public double discriminant = (this.b * this.b) - 4*this.a*this.c; // keep this?
     private char[] newEquation;
+    public boolean isVertical = false;
     //Constructer
     public Equation(String e){
         this.equation = e;
         newEquation = clean(this.equation);
-        getDegrees();
         getCoefficients();
+        getDegrees();
         getRoots();
     }
     //handles quad formula for finding roots
@@ -45,6 +46,16 @@ public final class Equation {
             roots[0] = Double.NaN;
             roots[1] = Double.NaN;
         }
+        else if ( this.degree == 0){
+            if ( this.c != 0){
+                roots[0] = Double.NaN;
+                roots[1] = Double.NaN;
+            }
+            else{
+                roots[0] = Double.POSITIVE_INFINITY;
+                roots[1] = Double.NaN;
+            }
+        }        
         //fills roots array with returnQF call
         else
             roots = returnQuadraticFormula(this.a, this.b, this.c); // uh you can fix this if you want   
@@ -66,7 +77,7 @@ public final class Equation {
             n = ""; //resets n
             if( newEquation[i] == '-' || newEquation[i] == '+') //checks for sign
                 sign = newEquation[i];
-            if( newEquation[i] == 'x'){ //checks for values next to x
+            if( newEquation[i] == 'x' ){ //checks for values next to x
                 j = i - 1;
                 while( Character.isDigit( newEquation[j] ) || newEquation[j] == '.' ){ //while loop neccesary for 2+ digit numbers
                     n += String.valueOf( newEquation[j] ); //creates a string so it can easily be converted to a double
@@ -81,7 +92,7 @@ public final class Equation {
                             this.a = -1;
                     }
                 }
-                else{ //for quadratic w two x's
+                else if( newEquation[i - 1] != '=' && newEquation[i + 1] != '=') { //for quadratic w two x's
                     try{ this.b = Double.parseDouble( sign + String.valueOf( number ) ); }
                     catch( Exception e ){
                         this.b = 1;
@@ -89,11 +100,13 @@ public final class Equation {
                             this.b = -1;
                     }
                 }
+                else //checks for vertical line "x = 5"
+                    isVertical = true;
             }
-            else if( Character.isDigit( newEquation[i] ) &&  newEquation[i] != '0' && this.c == 0){
+            else if( Character.isDigit( newEquation[i] ) &&  newEquation[i] != '0' && this.c == 0){ //handles c
                 j = i;
-                try{ if( newEquation[i - 1] == 'x' || newEquation[i - 1] == '^' ){continue;} } //change later with "^"
-                catch( Exception e ) { continue; }
+                if( newEquation[i - 1] == 'x' || newEquation[i - 1] == '^' ){continue;} //catches squared as a number so yeah
+
                 while( Character.isDigit( newEquation[j] ) || newEquation[j] == '.'){
                     if ( newEquation[j + 1] == 'x'){
                         n = "0";
@@ -109,7 +122,10 @@ public final class Equation {
     }
     //sets a degree of either 1 or 2
     void getDegrees(){
-        this.degree = 1;
+        if( isVertical )
+            this.degree = 0;
+        else
+            this.degree = 1;
         for (int i = 0; i < newEquation.length; i++) {
             if(newEquation[i] == 'x' && ( newEquation[i + 1] == '2' || newEquation[i + 1] == '^' ))
                 this.degree = 2;
